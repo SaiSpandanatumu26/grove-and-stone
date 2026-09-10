@@ -1,0 +1,48 @@
+# Current zero-cost review target: Render website/API + external Supabase Free PostgreSQL.
+# Disable Supabase Data API before deploying; see FREE_DEPLOYMENT.md.
+services:
+  - type: web
+    name: grove-and-stone-api
+    runtime: python
+    plan: free
+    region: singapore
+    autoDeployTrigger: off
+    buildCommand: pip install -r requirements.txt
+    startCommand: python -m flask --app backend init-db && gunicorn wsgi:app --bind 0.0.0.0:$PORT --workers 1 --threads 4 --timeout 60
+    healthCheckPath: /api/v1/health
+    envVars:
+      - key: PYTHON_VERSION
+        value: 3.14.7
+      - key: DATABASE_URL
+        sync: false
+      - key: SECRET_KEY
+        generateValue: true
+      - key: CORS_ORIGINS
+        sync: false
+      - key: PUBLIC_API_URL
+        sync: false
+      - key: SHIPPING_FEE
+        sync: false
+      - key: FREE_SHIPPING_THRESHOLD
+        sync: false
+      - key: PAYMENT_BACKEND
+        value: disabled
+      - key: CONTACT_BACKEND
+        value: disabled
+      - key: RATELIMIT_STORAGE_URI
+        value: memory://
+  - type: web
+    name: grove-and-stone-web
+    runtime: static
+    autoDeployTrigger: off
+    buildCommand: bash infra/render/build-web.sh
+    staticPublishPath: mobile/dist
+    envVars:
+      - key: NODE_VERSION
+        value: 24.20.0
+      - key: EXPO_PUBLIC_API_URL
+        sync: false
+    routes:
+      - type: rewrite
+        source: /*
+        destination: /index.html

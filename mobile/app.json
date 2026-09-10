@@ -1,0 +1,28 @@
+{
+  "expo": {
+    "name": "Grove & Stone",
+    "slug": "grove-and-stone",
+    "version": "1.0.0",
+    "orientation": "portrait",
+    "userInterfaceStyle": "light",
+    "platforms": [
+      "android",
+      "web"
+    ],
+    "plugins": [
+      [
+        "expo-build-properties",
+        {
+          "android": {
+            "minSdkVersion": 26
+          }
+        }
+      ],
+      "expo-font",
+      "expo-secure-store"
+    ],
+    "android": {
+      "package": "com.groveandstone.app"
+    }
+  }
+}

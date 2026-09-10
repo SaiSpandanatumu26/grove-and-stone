@@ -6,7 +6,7 @@ from sqlalchemy import func, select
 
 from backend.demo_seed import seed
 from backend.extensions import db
-from backend.models import MangoSeason, Product, WaitlistEntry
+from backend.models import CMSBanner, MangoSeason, Product, WaitlistEntry
 from backend.tests.test_api import app, setup, call
 
 
@@ -14,8 +14,8 @@ def test_sample_catalog_is_repeatable_and_preserves_existing_stock(setup, app):
     with app.app_context():
         seed()
         products = db.session.scalars(select(Product).where(Product.slug != 'alphonso')).all()
-        assert len(products) == 15
-        assert {category: sum(p.category == category for p in products) for category in ('exotic', 'dry_fruit', 'mango')} == {'exotic': 8, 'dry_fruit': 3, 'mango': 4}
+        assert len(products) == 19
+        assert {category: sum(p.category == category for p in products) for category in ('exotic', 'dry_fruit', 'mango')} == {'exotic': 8, 'dry_fruit': 3, 'mango': 8}
         for product in products:
             assert (Path(__file__).parents[2] / 'mobile/assets/catalog' / product.images[0].rsplit('/', 1)[-1]).is_file()
             assert len(product.variants) == 2 and sum(v.is_default for v in product.variants) == 1
@@ -28,8 +28,9 @@ def test_sample_catalog_is_repeatable_and_preserves_existing_stock(setup, app):
         db.session.commit()
         seed()
         assert pack.stock_qty == 17 and pack.pack_type == 'box' and pack.unit_count == 6
-        assert db.session.scalar(select(func.count()).select_from(Product)) == 16
-        assert db.session.scalar(select(func.count()).select_from(MangoSeason)) == 4
+        assert db.session.scalar(select(func.count()).select_from(Product)) == 20
+        assert db.session.scalar(select(func.count()).select_from(MangoSeason)) == 8
+        assert db.session.scalar(select(func.count()).select_from(CMSBanner).where(CMSBanner.cta_url == '/mango-season')) == 1
 
 
 def test_waitlist_duplicates_are_private_and_concurrent_safe(setup, app):

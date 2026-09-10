@@ -29,6 +29,10 @@ def seed():
         ('kesar-mangoes', 'Kesar Mangoes', 'mango', 'Gir, India', 'mango', 'Saffron-coloured flesh with a fragrant sweetness.', 599, 0),
         ('langra-mangoes', 'Langra Mangoes', 'mango', 'Varanasi, India', 'mango', 'A much-loved variety with aromatic, juicy flesh.', 549, 0),
         ('dasheri-mangoes', 'Dasheri Mangoes', 'mango', 'Malihabad, India', 'mango', 'Sweet, fragrant mangoes from a celebrated growing region.', 549, 0),
+        ('banganapalli-mangoes', 'Banganapalli Mangoes', 'mango', 'Andhra Pradesh, India', 'mango', 'A golden favourite for your seasonal fruit box.', 599, 0),
+        ('totapuri-mangoes', 'Totapuri Mangoes', 'mango', 'Karnataka, India', 'mango', 'Bring a little tropical brightness to your fruit bowl.', 449, 0),
+        ('chausa-mangoes', 'Chausa Mangoes', 'mango', 'Uttar Pradesh, India', 'mango', 'Discover another much-loved northern mango variety.', 599, 0),
+        ('neelum-mangoes', 'Neelum Mangoes', 'mango', 'Tamil Nadu, India', 'mango', 'A southern favourite to look forward to each season.', 499, 0),
     ]
     for slug, name, category, origin, image, description, price, gst in catalog:
         existing = db.session.scalar(select(Product).where(Product.slug == slug))
@@ -59,6 +63,10 @@ def seed():
         ]):
             db.session.add(CMSBanner(title=title, subtitle=subtitle, image=f'/api/v1/media/{image}.png', cta_label=cta, cta_url=url,
                                      season_state='live', start_date=today - timedelta(days=i), end_date=today + timedelta(days=365), is_published=True))
+    if not db.session.scalar(select(CMSBanner.id).where(CMSBanner.cta_url == '/mango-season').limit(1)):
+        db.session.add(CMSBanner(title='Golden days.\nMore mangoes.', subtitle='Alphonso, Kesar, Banganapalli and more. Explore the varieties and find your next seasonal favourite.',
+                                image='/api/v1/media/mango.png', cta_label='Explore mango season', cta_url='/mango-season', season_state='live',
+                                start_date=today - timedelta(days=3), end_date=today + timedelta(days=365), is_published=True))
     for mango in db.session.scalars(select(Product).where(Product.category == 'mango', Product.slug.in_([item[0] for item in catalog]))):
         if db.session.scalar(select(MangoSeason.id).where(MangoSeason.product_id == mango.id)): continue
         upcoming = mango.season_status == 'coming_soon'
@@ -92,4 +100,4 @@ if __name__ == '__main__':
     if url.host not in {'localhost', '127.0.0.1', '::1'} or not (url.database or '').endswith('_local'):
         raise SystemExit('Demo seeding requires a loopback host and a database name ending in _local.')
     with app.app_context(): db.create_all(); seed()
-    print('Local demo ready: 15 products, 3 banners, 4 sample harvests, delivery coverage and a synthetic past order. No notifications or payments sent.')
+    print('Local demo ready: 19 products, 4 banners, 8 sample harvests, delivery coverage and a synthetic past order. No notifications or payments sent.')

@@ -8,7 +8,7 @@ Grove & Stone is an India-focused shop for **exotic fruits, dry fruits, and seas
 
 **Open the website: [http://localhost:8081/](http://localhost:8081/).** This is a local preview. `localhost` means this computer; it is not a public internet address. The database, Flask server, and Expo server must be running.
 
-The catalog now contains 15 sample products and 30 packs. Prices, GST percentages, origins, inventory, delivery coverage, and harvest dates are review data. Generated pictures illustrate products; they are not photographs of a supplier's actual inventory. UPI/card payments in the local preview are simulations and charge nothing.
+The catalog now contains 19 sample products and 38 packs. Prices, GST percentages, origins, inventory, delivery coverage, and harvest dates are review data. Generated pictures illustrate products; they are not photographs of a supplier's actual inventory. UPI/card payments in the local preview are simulations and charge nothing.
 
 ## Contents
 
@@ -60,9 +60,12 @@ This demo does not arrange a real courier or deliver fruit. Real commerce also r
 | Element | What it does |
 | --- | --- |
 | Yellow hero | Large promotional area containing a title, description, image, and action button. Published backend banners supply this content. |
-| Hero action button | Selects the relevant collection and scrolls to products. |
+| Hero action button | Opens the mango season hub for mango slides; otherwise selects the collection and scrolls to products. |
 | Slide dots | Selects a banner and pauses automatic slide changes. |
+| Previous / next arrows | Move between banners and pause rotation, so you can read the selected promotion. |
 | Play/pause icon | Controls automatic banner rotation. Slides change approximately every 6.5 seconds when enabled. Reduced-motion settings are respected. |
+| Mango collection card | Shows how many mango varieties are in the catalog and opens the mango season hub. |
+| Three hero collection shortcuts | Open the mango season hub or filter the exotic/dry-fruit product list. |
 | Moving image | Decorative app animation; it does not affect products or the cart. |
 | **Check pincode** | Opens delivery checking. |
 | Three category pictures | Selects Exotic fruits, Dry fruits, or Mangoes. |
@@ -320,7 +323,8 @@ Grove-and-Stone/
 | File | Responsibility / what to change here |
 | --- | --- |
 | `mobile/App.tsx` | Tabs, screen registration, header, theme, cart badge. |
-| `mobile/src/Home.tsx` | Hero, categories, cards, search, product details, mango hub, waitlist. |
+| `mobile/src/Hero.tsx` | Animated four-slide hero, controls, mango feature and collection shortcuts. |
+| `mobile/src/Home.tsx` | Categories, cards, search, product details, mango hub, waitlist. |
 | `mobile/src/Account.tsx` | Registration/login, profile, wishlist, orders, reorder. |
 | `mobile/src/Cart.tsx` | Basket and pincode interface. |
 | `mobile/src/Checkout.tsx` | Address, quote, dates, payment, order confirmation/details. |

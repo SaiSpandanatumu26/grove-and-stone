@@ -6,7 +6,7 @@ Updated 11 September 2026. **This is the current deployment plan**, replacing th
 
 - Source uploaded to the owner's [private GitHub repository](https://github.com/SaiSpandanatumu26/grove-and-stone); GitHub's Private badge verified. Render is signed in and connected to this repository.
 - Supabase PostgreSQL 17.6 initialized successfully: 22 application tables, all 22 with row-level security enabled. The automatic Data API is disabled.
-- Sample catalog imported and verified: 15 products, 30 packs and 3 hero banners, plus 4 harvest entries and 3 sample delivery pincodes. Cloud customer and order counts are both zero. No local demo login or order was uploaded.
+- Sample catalog imported and verified: 19 products (8 mango varieties), 38 packs and 4 hero banners, plus 8 harvest entries and 3 sample delivery pincodes. Cloud customer and order counts are both zero. No local demo login or order was uploaded.
 - Render Blueprint form prepared. The owner must enter the private Session pooler connection string in `DATABASE_URL`; actual service URLs must then be configured and tested. No Render service or public website has been created yet.
 - Expo CLI reports **Not logged in**. A signed Android APK has not been built; browser sign-in does not authenticate the CLI.
 

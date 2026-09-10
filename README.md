@@ -94,4 +94,8 @@ Stock is checked automatically every five seconds on visible product lists and p
 
 ## Expanded catalog and mango waitlist
 
-The documents allow additional products within the three catalog categories. The local seed now provides 15 products (8 exotic fruits, 3 dry fruits, 4 mango varieties), each with two packs. Mangoes use boxes of 6 or 12. Upcoming varieties remain visible with a working email/mobile waitlist; repeat submissions succeed without duplicate records or exposing contact details. Sample origins, prices, GST, inventory and harvest windows are review data, not live supplier information. See `CATALOG_REVIEW.md` for the latest checks.
+The documents allow additional products within the three catalog categories. The local seed now provides 19 products (8 exotic fruits, 3 dry fruits, 8 mango varieties), each with two packs. Mangoes use boxes of 6 or 12. Upcoming varieties remain visible with a working email/mobile waitlist; repeat submissions succeed without duplicate records or exposing contact details. Sample origins, prices, GST, inventory and harvest windows are review data, not live supplier information. See `CATALOG_REVIEW.md` for the latest checks.
+
+## Latest hero and mango update
+
+The homepage now has a redesigned four-slide hero, motion-aware animation, previous/next and pause controls, collection shortcuts and an eight-variety mango feature. Added Banganapalli, Totapuri, Chausa and Neelum; new varieties are upcoming with waitlists and sample prices. See [HERO_MANGO_REVIEW.md](HERO_MANGO_REVIEW.md) for validation and deployment status.

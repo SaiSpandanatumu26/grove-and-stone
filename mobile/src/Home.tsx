@@ -1,6 +1,7 @@
 import { infoPages } from './Info';
+import { Hero } from './Hero';
 import { useEffect, useRef, useState } from 'react';
-import { AccessibilityInfo, Animated, Platform, Pressable, ScrollView, StyleSheet, Text, View } from 'react-native';
+import { Pressable, ScrollView, StyleSheet, Text, View } from 'react-native';
 import { useIsFocused, useNavigation } from '@react-navigation/native';
 import { api, all, Category, Product, Season, Variant } from './api';
 import { useShop } from './Store';
@@ -15,48 +16,6 @@ export const categories: { key: Category; label: string; caption: string }[] = [
 const useNav = () => useNavigation<any>();
 const seasonFor = (seasons: Season[], id: string) => seasons.filter(season => season.product?.id === id).sort((a, b) => b.harvest_start.localeCompare(a.harvest_start))[0];
 const acceptsWaitlist = (season?: Season) => !!season && (season.waitlist_enabled || season.status === 'upcoming');
-
-function Hero({ choose }: { choose: (category: Category | 'all') => void }) {
-  const { banners } = useShop(), [index, setIndex] = useState(0), [paused, setPaused] = useState(false), [reduced, setReduced] = useState(true);
-  const float = useRef(new Animated.Value(0)).current, wide = useWide(), focused = useIsFocused();
-  useEffect(() => {
-    AccessibilityInfo.isReduceMotionEnabled().then(setReduced);
-    const subscription = AccessibilityInfo.addEventListener('reduceMotionChanged', setReduced);
-    return () => subscription.remove();
-  }, []);
-  useEffect(() => {
-    if (paused || reduced || !focused || banners.length < 2) return;
-    const timer = setInterval(() => setIndex(value => (value + 1) % banners.length), 6500);
-    return () => clearInterval(timer);
-  }, [paused, reduced, focused, banners.length]);
-  useEffect(() => {
-    if (paused || reduced || !focused) { float.setValue(0); return; }
-    const animation = Animated.loop(Animated.sequence([Animated.timing(float, { toValue: -10, duration: 2200, useNativeDriver: Platform.OS !== 'web' }), Animated.timing(float, { toValue: 0, duration: 2200, useNativeDriver: Platform.OS !== 'web' })]));
-    animation.start(); return () => animation.stop();
-  }, [paused, reduced, focused]);
-  if (!banners.length) return null;
-  const banner = banners[index % banners.length];
-  const follow = () => choose(banner.cta_url.includes('dry_fruit') ? 'dry_fruit' : banner.cta_url.includes('mango') ? 'mango' : banner.cta_url.includes('exotic') ? 'exotic' : 'all');
-  return <View style={h.hero}>
-    <View style={[h.heroInner, !wide && { flexDirection: 'column', paddingTop: 32 }]}>
-      <View style={[h.heroCopy, { width: wide ? '52%' : '100%' }]}>
-        <Text style={h.heroEyebrow}>THE GOOD STUFF, DELIVERED</Text>
-        <Text accessibilityRole="header" style={[h.heroTitle, !wide && { fontSize: 42, lineHeight: 47 }]}>{banner.title}</Text>
-        <Text style={h.heroSubtitle}>{banner.subtitle}</Text>
-        <View style={[s.row, { marginTop: 12, alignSelf: 'flex-start' }]}><Button label={banner.cta_label} icon="arrow-forward" onPress={follow} /></View>
-        <View style={[s.row, { marginTop: 22 }]}>
-          {banners.map((item, i) => <Pressable key={item.id} accessibilityRole="button" accessibilityLabel={'Show slide ' + (i + 1)} accessibilityState={{ selected: i === index % banners.length }} onPress={() => { setIndex(i); setPaused(true); }} style={h.dotTarget}><View style={[h.dot, i === index % banners.length && h.dotActive]} /></Pressable>)}
-          <IconButton label={paused ? 'Play slideshow' : 'Pause slideshow'} icon={paused ? 'play-outline' : 'pause-outline'} onPress={() => setPaused(!paused)} />
-          <Text style={h.slideCount}>{String(index % banners.length + 1).padStart(2, '0')} / {String(banners.length).padStart(2, '0')}</Text>
-        </View>
-      </View>
-      <Animated.View style={{ width: wide ? '43%' : '85%', maxWidth: 480, transform: [{ translateY: float }] }}>
-        <Photo src={banner.image} label="A colourful selection of fruits and dry fruits" style={{ borderRadius: 240 }} />
-        <View style={h.imageTag}><Icon name="leaf" size={18} color={colors.green} /><Text style={h.imageTagText}>A little closer to nature.</Text></View>
-      </Animated.View>
-    </View>
-  </View>;
-}
 
 export function ProductGrid({ products }: { products: Product[] }) {
   const wide = useWide(), shop = useShop(), navigation = useNav();
@@ -93,7 +52,7 @@ export function HomeScreen() {
   const scroll = useRef<ScrollView>(null), catalogY = useRef(0), contentY = useRef(0), wide = useWide();
   const choose = (key: Category | 'all') => { setCategory(key); scroll.current?.scrollTo({ y: contentY.current + catalogY.current, animated: true }); };
   return <ScrollView ref={scroll} style={s.page} contentContainerStyle={{ paddingBottom: 36 }}>
-    <Hero choose={choose} />
+    <Hero choose={choose} mangoSeason={() => navigation.getParent()?.navigate('Mangoes')} />
     <View style={h.content} onLayout={event => { contentY.current = event.nativeEvent.layout.y; }}>
       <View style={[s.between, { flexWrap: 'wrap', paddingVertical: 24 }]}>
         <View style={s.row}><Icon name="location" /><View><Text style={s.label}>Freshness starts with your location</Text><Copy>{shop.cart?.pincode ? 'Deliver to ' + shop.cart.pincode : 'Check delivery availability in your area.'}</Copy></View></View>
@@ -121,7 +80,7 @@ export function HomeScreen() {
         ['location-outline', 'Select location', 'Check your pincode for delivery availability.'], ['bag-handle-outline', 'Choose your favourites', 'Pick your fruits, dry fruits and the perfect pack.'], ['receipt-outline', 'Review your basket', 'See every item and the included GST clearly.'], ['leaf-outline', 'Enjoy the good stuff', 'Origin stories, seasonal picks and everyday goodness.'],
       ].map(([icon, title, body]) => <View key={title} style={{ alignItems: 'center', gap: 12, width: wide ? '21%' : '45%', paddingVertical: 20 }}><Icon name={icon as any} size={42} /><Text style={[s.label, { textAlign: 'center', fontSize: 17 }]}>{title}</Text><Text style={[s.copy, { textAlign: 'center' }]}>{body}</Text></View>)}</View>
     </View></View>
-    <View style={h.footer}><View style={[s.container, { padding: 24 }]}><Text style={{ color: '#FFFFFF', fontSize: 24, fontWeight: '800' }}>grove<Text style={{ color: colors.yellow }}>&stone</Text></Text><Text style={{ color: '#CCC6BF', lineHeight: 24 }}>Exotic fruits. Dry fruits. Seasonal mangoes. A basket full of possibilities.</Text><View style={s.wrap}>{infoPages.map(page => <Button key={page} label={page} quiet onPress={() => navigation.navigate('Info', { page })} />)}</View><Text style={{ color: '#A8A199', fontSize: 12 }}>Local preview · Sample catalog and prices for review</Text></View></View>
+    <View style={h.footer}><View style={[s.container, { padding: 24 }]}><Text style={{ color: '#FFFFFF', fontSize: 24, fontWeight: '800' }}>grove<Text style={{ color: colors.yellow }}>&stone</Text></Text><Text style={{ color: '#CCC6BF', lineHeight: 24 }}>Exotic fruits. Dry fruits. Seasonal mangoes. A basket full of possibilities.</Text><View style={s.wrap}>{infoPages.map(page => <Button key={page} label={page} quiet onPress={() => navigation.navigate('Info', { page })} />)}</View><Text style={{ color: '#A8A199', fontSize: 12 }}>Project preview · Sample catalog and prices for review</Text></View></View>
   </ScrollView>;
 }
 
@@ -196,10 +155,6 @@ export function WaitlistScreen({ route }: any) {
 }
 
 const h = StyleSheet.create({
-  hero: { backgroundColor: colors.yellow, overflow: 'hidden' }, heroInner: { maxWidth: 1230, width: '100%', alignSelf: 'center', flexDirection: 'row', alignItems: 'center', justifyContent: 'space-between', padding: 30, paddingVertical: 36, gap: 18 },
-  heroCopy: { gap: 15, paddingVertical: 16 }, heroEyebrow: { fontSize: 11, fontWeight: '800', letterSpacing: 2, color: '#715013' }, heroTitle: { color: '#FFFFFF', fontSize: 64, lineHeight: 69, fontWeight: '900', letterSpacing: -2.8, maxWidth: 580, textShadowColor: '#C6802526', textShadowOffset: { width: 0, height: 3 }, textShadowRadius: 8 },
-  heroSubtitle: { color: '#634917', fontSize: 18, lineHeight: 28, maxWidth: 460 }, dotTarget: { minWidth: 26, height: 48, justifyContent: 'center' }, dot: { width: 8, height: 8, borderRadius: 8, backgroundColor: '#FFFFFF80' }, dotActive: { width: 25, backgroundColor: '#FFFFFF' }, slideCount: { fontSize: 11, fontWeight: '700', color: '#77521B' },
-  imageTag: { position: 'absolute', bottom: 16, alignSelf: 'center', backgroundColor: '#FFFFFF', borderRadius: 25, padding: 12, paddingHorizontal: 20, flexDirection: 'row', alignItems: 'center', gap: 8 }, imageTagText: { color: colors.dark, fontSize: 12, fontWeight: '700' },
   content: { maxWidth: 1230, width: '100%', alignSelf: 'center', paddingHorizontal: 24 }, category: { flex: 1, gap: 12, alignItems: 'center', backgroundColor: '#FFFCF7', borderRadius: 15, paddingVertical: 22 }, categoryTitle: { fontSize: 19, color: colors.dark, fontWeight: '800' },
   seasonStrip: { marginTop: 28, backgroundColor: '#FFF3DA', borderRadius: 13, padding: 22, gap: 15 }, grid: { flexDirection: 'row', flexWrap: 'wrap', gap: 16, alignItems: 'stretch' }, card: { gap: 9, paddingBottom: 16 },
   heart: { position: 'absolute', right: 8, top: 8, backgroundColor: '#FFFFFFE6', borderRadius: 12 }, productTitle: { color: colors.dark, fontSize: 18, fontWeight: '800', marginTop: 5 }, origin: { color: '#B05B15', fontSize: 12, flexShrink: 1 }, pack: { color: colors.muted, fontSize: 12 }, price: { color: colors.dark, fontSize: 20, fontWeight: '800', marginVertical: 3 },

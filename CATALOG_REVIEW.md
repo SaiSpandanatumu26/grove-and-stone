@@ -1,3 +1,5 @@
+**11 September update:** The current catalog has 19 products, 38 packs, 8 mango varieties and 4 banners. See [HERO_MANGO_REVIEW.md](HERO_MANGO_REVIEW.md). The earlier review below records the first expansion.
+
 # Grove & Stone — catalog and debugging review
 
 Reviewed 9 September 2026. Open [the local shop](http://localhost:8081/) while its database, Flask, and Expo servers are running. Start with [BEGINNER_GUIDE.md](BEGINNER_GUIDE.md) for a plain-language walkthrough.

@@ -1,6 +1,16 @@
 # Grove & Stone — free website and Android deployment
 
-Updated 10 September 2026. **This is the current deployment plan**, replacing the paid Azure proposal and the original expiring Render database. The owner requested a free provider and authorized proceeding. Account sign-in/connection and remote deployment remain pending; no public URL or signed APK has been created.
+Updated 11 September 2026. **This is the current deployment plan**, replacing the paid Azure proposal and the original expiring Render database. The owner requested a free provider and authorized proceeding.
+
+## Current status
+
+- Source uploaded to the owner's [private GitHub repository](https://github.com/SaiSpandanatumu26/grove-and-stone); GitHub's Private badge verified. Render is signed in and connected to this repository.
+- Supabase PostgreSQL 17.6 initialized successfully: 22 application tables, all 22 with row-level security enabled. The automatic Data API is disabled.
+- Sample catalog imported and verified: 15 products, 30 packs and 3 hero banners, plus 4 harvest entries and 3 sample delivery pincodes. Cloud customer and order counts are both zero. No local demo login or order was uploaded.
+- Render Blueprint form prepared. The owner must enter the private Session pooler connection string in `DATABASE_URL`; actual service URLs must then be configured and tested. No Render service or public website has been created yet.
+- Expo CLI reports **Not logged in**. A signed Android APK has not been built; browser sign-in does not authenticate the CLI.
+
+The Supabase project is the owner's existing project in Sydney; Render's prepared API region is Singapore. No paid Azure resources or Render database were created.
 
 ## Selected services
 
@@ -82,6 +92,8 @@ The current `render.yaml` defines two services and **no Render database**. It ac
 You can use the Blueprint instead, but prompted URLs must be corrected to the actual generated services before rebuilding/testing. Do not guess that service names guarantee a particular domain. `WEB_DIST_DIR` is unnecessary here because the website is a separate static service.
 
 After initialization, verify `/api/v1/health` and `/api/v1/products`. An empty products response is expected until the catalog has been populated. Verify the Supabase Data API cannot read the application's tables; authenticated Flask routes remain the only client entry point.
+
+For an empty review database, `infra/supabase/schema.sql` contains the initial schema and enables row-level security in one transaction. `infra/supabase/sample-catalog.sql` contains only sample products, packs, banners, harvest windows and delivery coverage. Both were applied to this project's Supabase database on 11 September 2026. Do not rerun the initial schema on an initialized database. Do not upload a local database dump or run the local demo-account seeder remotely. Replace sample inventory, tax, delivery and season values with approved business data before real sales.
 
 ### 4. Deploy the website
 

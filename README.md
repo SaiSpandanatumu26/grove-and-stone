@@ -1,6 +1,6 @@
 # Grove & Stone
 
-**Current deployment target: free Render website/API + Supabase Free PostgreSQL + Expo EAS Android APK.** The owner replaced the paid Azure proposal with a free-hosting request. Read [FREE_DEPLOYMENT.md](FREE_DEPLOYMENT.md) for setup, limitations and account steps. `render.yaml` now defines the static website and free API, without an expiring Render database. Provider sign-in and remote deployment remain pending; no public URL or signed APK has been created. Older hosting instructions below are historical alternatives.
+**Current deployment target: free Render website/API + Supabase Free PostgreSQL + Expo EAS Android APK.** Read [FREE_DEPLOYMENT.md](FREE_DEPLOYMENT.md) for setup, limitations and current status. GitHub and Render are connected, the source is in the owner's private repository, and all 22 Supabase tables have been created with row-level security enabled. Render still needs the private database connection setting before deployment; no public website or signed APK is available yet.
 
 Latest validation: **41 backend tests passed** after adding optional website hosting. The Azure Bicep template compiles, the Expo web export builds, and its HTML/JavaScript/nested routes were verified through Flask. Earlier test counts below are historical.
 
@@ -56,7 +56,7 @@ npm.cmd ci
 npm.cmd test
 ```
 
-Results: **39 Python tests passed**, including native PostgreSQL API integration, simultaneous cart additions, repeatable catalog expansion and concurrent waitlist submissions; **57 standalone schema checks passed previously** (schema unchanged). Firebase payload construction is tested with its network send mocked. Real-device delivery and payment processing have not been exercised.
+Results: **41 Python tests passed**, including native PostgreSQL API integration, simultaneous cart additions, repeatable catalog expansion, concurrent waitlist submissions and optional website serving; **57 standalone schema checks passed previously**. Firebase payload construction is tested with its network send mocked. Real-device delivery and payment processing have not been exercised.
 
 ## Push delivery
 
@@ -68,9 +68,9 @@ Install `backend/requirements-fcm.txt`, configure `GOOGLE_APPLICATION_CREDENTIAL
 
 1. Review the running storefront and account/cart flows described in `STOREFRONT_REVIEW.md`. Device testing and existing upstream dependency advisories remain outstanding.
 2. Review the completed checkout and support flows in `CHECKOUT_REVIEW.md`; approve shipping charges and policy values.
-3. Deployment is approved; sign in to GitHub, Render and Expo to continue the remote steps in `DEPLOYMENT.md`. Live gateway/email/device tests still need credentials.
+3. Deployment is approved and GitHub/Render are connected. Enter the Supabase session-pooler connection string privately in Render to continue the steps in `FREE_DEPLOYMENT.md`. Live gateway/email/device tests still need credentials.
 
-Nothing has been deployed. The broader documents also specify customer/admin websites; their screens remain part of the overall product specification.
+The cloud database is initialized; the public website/API and signed Android build remain pending. The customer storefront is implemented; a separate visual admin website remains outstanding.
 
 References: [Flask factories](https://flask.palletsprojects.com/en/stable/patterns/appfactories/), [SQLAlchemy PostgreSQL](https://docs.sqlalchemy.org/en/20/dialects/postgresql.html), [Firebase Admin](https://firebase.google.com/docs/cloud-messaging/send/admin-sdk), [PGlite](https://pglite.dev/docs/).
 
@@ -86,7 +86,7 @@ $env:SHIPPING_FEE = '49'
 $env:FREE_SHIPPING_THRESHOLD = '999'
 ```
 
-Demo modes are rejected for remote or non-`_local` databases. Production defaults disable online payments/contact until configured. Delivery pricing must be supplied for checkout. See `DEPLOYMENT.md` for deployment files and exact commands; no remote action has been taken.
+Demo modes are rejected for remote or non-`_local` databases. Production defaults disable online payments/contact until configured. Delivery pricing must be supplied for checkout. See `FREE_DEPLOYMENT.md` for the current deployment steps.
 
 ## Live stock availability
 

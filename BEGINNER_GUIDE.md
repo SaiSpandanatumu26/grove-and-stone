@@ -1,6 +1,6 @@
 # Grove & Stone — a beginner's guide
 
-**Latest hosting update:** the owner selected free hosting. Render will host the website and Flask API, Supabase Free will store PostgreSQL data, and Expo EAS will build the Android APK. Read [the free deployment guide](FREE_DEPLOYMENT.md). Earlier Azure and Render-database plans are historical alternatives; cloud resources and a signed APK are still pending.
+**Latest hosting update (11 September 2026):** Render will host the website and Flask API, Supabase Free stores PostgreSQL data, and Expo EAS will build the Android APK. The private GitHub repository is connected and the 22 cloud database tables are initialized. The public website/API and signed APK remain pending. Read [the free deployment guide](FREE_DEPLOYMENT.md) for the remaining account and connection steps.
 
 This guide assumes you have never built an app or website. It explains the shop, its screens and controls, the purchase flow, the technologies, and the code files.
 
@@ -292,7 +292,7 @@ flowchart TD
 | Resend | Sends contact email through HTTPS when configured. | Support form backend. |
 | Gunicorn | Production Flask server on Linux. | Render startup/`wsgi.py`. |
 | Git / GitHub | Tracks source versions / hosts the remote repository. | Deployment source workflow. |
-| Render | Hosts the API and database remotely. | `render.yaml`. |
+| Render | Hosts the website and Flask API remotely. Supabase hosts PostgreSQL. | `render.yaml`. |
 | EAS | Expo cloud service building APK/AAB packages. | `mobile/eas.json`. |
 | pytest | Runs backend checks automatically. | `backend/tests/`. |
 
@@ -494,7 +494,9 @@ An existing Firebase-token deprecation and development style warnings are docume
 flowchart LR
   S[Project source] --> R[GitHub repository]
   R --> B[Render Flask API]
-  B --> D[(Render PostgreSQL)]
+  R --> W[Render static website]
+  W -->|HTTPS requests| B
+  B --> D[(Supabase PostgreSQL)]
   S --> E[Expo EAS build]
   E --> A[Android APK]
   A -->|HTTPS requests| B
@@ -502,19 +504,19 @@ flowchart LR
 
 | Prepared file | Purpose |
 | --- | --- |
-| `render.yaml` | Recipe for the Free Render API and PostgreSQL services; does not deploy simply by existing. |
+| `render.yaml` | Recipe for the Free Render API and static website; does not deploy simply by existing. |
 | `requirements.txt` | Production Python dependency entry point. |
 | `wsgi.py` | Supplies the Flask app to Gunicorn. |
 | `mobile/eas.json` | Internal preview APK and production AAB build profiles. |
-| `DEPLOYMENT.md` | Commands and dashboard steps to perform deployment. |
+| `FREE_DEPLOYMENT.md` | Current commands, dashboard steps and deployment status. |
 
-Your deployment approval is recorded. Account sign-in/repository connection still needs to complete in an accessible session. An email identifies an account but does not authenticate it; Chrome and the in-app browser do not automatically share sessions. No remote resources or signed EAS build have been created.
+Your deployment approval is recorded. GitHub and Render are connected, and the repository is private. Supabase has all 22 application tables with row-level security enabled; its automatic Data API is disabled because the app uses Flask for access. The Render form needs your private Supabase database connection string. Enter it on Render, never in chat or GitHub.
 
-The current Render recipe hosts **the API**, not the Expo website. The website is currently local. A public web frontend needs a separate export/hosting step plus the final API URL and CORS origins. The original deployment stage requested backend/database hosting and an EAS mobile build.
+The current Render recipe includes **both the API and website** as separate services. Once created, their actual HTTPS addresses must be connected in the settings and tested. The Android APK will use that same API. Expo's command-line build tool still needs account sign-in; signing into its website alone does not sign that tool in.
 
-Render's documented free database has a 30-day expiry, and its free web service can sleep while idle. This is a temporary review setup, not a durable live-commerce system. See the [official free-instance limits](https://render.com/docs/free), checked 9 September 2026, and [DEPLOYMENT.md](DEPLOYMENT.md) for setup details.
+We are using Supabase Free for the database, avoiding Render's expiring database trial. Render's free API sleeps while idle, and inactive Supabase Free projects can pause. See [FREE_DEPLOYMENT.md](FREE_DEPLOYMENT.md) for the limits and what a slow first visit means.
 
-Before a real launch: finish provider sign-in/repository connection; choose durable database/backups and a push/refund worker; replace sample catalog/business values; configure/test real payments, email, and push; test an installed Android build. A separate staff website, phone OTP/social login, waitlist email/SMS delivery, and public web deployment are not complete. Administrative JSON endpoints exist, but there is no finished visual staff dashboard.
+Before a real launch: finish the hosting connection and Expo sign-in; arrange backups and a push/refund worker; replace sample catalog/business values; configure/test real payments, email, and push; test an installed Android build. A separate staff website, phone OTP/social login, waitlist email/SMS delivery, and public web deployment are not complete. Administrative JSON endpoints exist, but there is no finished visual staff dashboard.
 
 ## Glossary
 

@@ -19,7 +19,7 @@ const acceptsWaitlist = (season?: Season) => !!season && (season.waitlist_enable
 
 export function ProductGrid({ products }: { products: Product[] }) {
   const shop = useShop(), navigation = useNav(), [gridWidth, setGridWidth] = useState(0);
-  const columns = Math.min(4, Math.max(1, Math.floor((gridWidth + 16) / 176)));
+  const columns = Math.min(4, Math.max(1, Math.floor((gridWidth + 16) / 166)));
   const focused = useIsFocused(), ids = products.map(product => product.id).sort().join(',');
   useEffect(() => { if (focused && ids) return shop.watchStock(ids.split(',')); }, [focused, ids, shop.watchStock]);
   return <View style={{ gap: 12 }}>{products.length > 0 && <StockStatus />}<View style={h.grid} onLayout={event => setGridWidth(event.nativeEvent.layout.width)}>{products.map(original => {

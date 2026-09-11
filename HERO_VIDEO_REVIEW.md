@@ -5,7 +5,7 @@ The hero now uses an original, silent 10-second mixed-fruit video instead of the
 ## How it works
 
 - `mobile/src/FruitVideo.tsx` uses Expo Video for the same MP4 on Android and web. The video loops, is muted and plays inline. A JPEG poster covers loading and playback errors.
-- `mobile/src/Hero.tsx` keeps offers, slide buttons, collection links and the mango shortcut. The pause button controls both slides and video. Reduced-motion preferences, app backgrounding and tab focus stop playback. The phone crop favours the fruit area; the text sits on a translucent cream panel.
+- `mobile/src/Hero.tsx` keeps offers, swipe navigation, dot selectors, collection links and the desktop mango shortcut. Swiping changes the offer without stopping fruit motion. Reduced-motion preferences, app backgrounding and tab focus stop playback. The phone crop favours the fruit area; the text sits on a translucent cream panel.
 - `mobile/assets/hero/grove-and-stone-fruit-loop.mp4` is the finished H.264 video: 1280 x 720, 24 fps, 10 seconds, approximately 1.4 MB. There is no audio track or watermark.
 - `infra/media/render-fruit-loop.py` reproduces the video from the original transparent cutout sheet. Install `pillow` and `imageio-ffmpeg` only when rebuilding this artwork; the deployed app does not need them.
 
@@ -30,3 +30,9 @@ The private repository excludes `.env`, `.env.*` and `node_modules/`; only place
 The phone hero now contains the headline, fruit background and compact slide controls in one section. The extra decorative mango panel and duplicate collection strip are desktop-only. The animated progress line has been removed on every screen size. Video and poster use the same explicit height to avoid mismatched background edges in mobile browsers.
 
 Product grids calculate equal column widths from available space. Product titles and season labels reserve consistent space, and the price/stock/action group is anchored at the card bottom so Notify me and Add to cart align within each row.
+
+## Swipe navigation and mobile motion
+
+The hero no longer shows play/pause buttons, slide numbers or previous/next arrows. Swipe left for the next offer and right for the previous one; dot selectors also remain available. Vertical gestures continue scrolling the page. Choosing an offer stops automatic offer rotation without pausing the background.
+
+The mobile copy panel is more transparent and leaves fruit visible above the headline within the same hero. Playback uses actual player status instead of relying on a first-frame callback, retries muted playback on touch, and gently moves the poster while a browser blocks video autoplay. Reduced-motion preferences still produce a still background.

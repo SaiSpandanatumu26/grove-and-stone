@@ -24,3 +24,9 @@ Website: https://grove-and-stone-web.onrender.com
 API health: https://grove-and-stone.onrender.com/api/v1/health
 
 The private repository excludes `.env`, `.env.*` and `node_modules/`; only placeholder `.env.example` files are tracked. Dependencies still install during setup/build. The Android source is exportable, but a signed APK and physical-device playback remain separate checks.
+
+## Phone layout correction
+
+The phone hero now contains the headline, fruit background and compact slide controls in one section. The extra decorative mango panel and duplicate collection strip are desktop-only. The animated progress line has been removed on every screen size. Video and poster use the same explicit height to avoid mismatched background edges in mobile browsers.
+
+Product grids calculate equal column widths from available space. Product titles and season labels reserve consistent space, and the price/stock/action group is anchored at the card bottom so Notify me and Add to cart align within each row.

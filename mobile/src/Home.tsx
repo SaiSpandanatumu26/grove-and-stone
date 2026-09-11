@@ -18,15 +18,16 @@ const seasonFor = (seasons: Season[], id: string) => seasons.filter(season => se
 const acceptsWaitlist = (season?: Season) => !!season && (season.waitlist_enabled || season.status === 'upcoming');
 
 export function ProductGrid({ products }: { products: Product[] }) {
-  const wide = useWide(), shop = useShop(), navigation = useNav();
+  const shop = useShop(), navigation = useNav(), [gridWidth, setGridWidth] = useState(0);
+  const columns = Math.min(4, Math.max(1, Math.floor((gridWidth + 16) / 176)));
   const focused = useIsFocused(), ids = products.map(product => product.id).sort().join(',');
   useEffect(() => { if (focused && ids) return shop.watchStock(ids.split(',')); }, [focused, ids, shop.watchStock]);
-  return <View style={{ gap: 12 }}>{products.length > 0 && <StockStatus />}<View style={h.grid}>{products.map(original => {
+  return <View style={{ gap: 12 }}>{products.length > 0 && <StockStatus />}<View style={h.grid} onLayout={event => setGridWidth(event.nativeEvent.layout.width)}>{products.map(original => {
     const product = shop.liveProduct(original);
     const variant = product.default_variant, saved = shop.wishlist.some(item => item.id === product.id);
     const unavailable = !variant || !variant.stock_qty || product.is_active === false || ['coming_soon', 'off_season'].includes(product.season_status);
     const notify = unavailable && product.is_active !== false && acceptsWaitlist(seasonFor(shop.seasons, product.id));
-    return <View key={product.id} style={[h.card, { width: wide ? '23.6%' : '47.5%' }]}>
+    return <View key={product.id} style={[h.card, { width: gridWidth ? (gridWidth - 16 * (columns - 1)) / columns : '100%' }]}>
       <View>
         <Pressable accessibilityRole="button" accessibilityLabel={'View ' + product.name} onPress={() => navigation.navigate('Product', { slug: product.slug })}>
           <Photo src={product.images[0]} label={product.name} />
@@ -36,13 +37,15 @@ export function ProductGrid({ products }: { products: Product[] }) {
           else shop.perform(() => shop.toggleWishlist(product), saved ? 'Removed from wishlist.' : 'Saved to wishlist.');
         }} /></View>
       </View>
-      <Pressable accessibilityRole="button" onPress={() => navigation.navigate('Product', { slug: product.slug })}><Text style={h.productTitle}>{product.name}</Text></Pressable>
-      <View style={[s.row, { gap: 4 }]}><Icon name="location-outline" size={15} /><Text style={h.origin}>{product.origin}</Text></View>
-      <Text style={h.pack}>{variant?.pack_label || 'No packs available'}</Text>
+      <Pressable accessibilityRole="button" onPress={() => navigation.navigate('Product', { slug: product.slug })}><Text numberOfLines={2} style={[h.productTitle, h.cardTitle]}>{product.name}</Text></Pressable>
+      <View style={[s.row, { gap: 4, minHeight: 32 }]}><Icon name="location-outline" size={15} /><Text numberOfLines={2} style={h.origin}>{product.origin}</Text></View>
+      <View style={h.cardFooter}>
+      <Text numberOfLines={1} style={[h.pack, { minHeight: 18 }]}>{variant?.pack_label || 'No packs available'}</Text>
       <Text style={h.price}>{variant ? money(variant.price) : 'Unavailable'}</Text>
-      <Text style={[h.pack, { color: unavailable ? colors.muted : colors.green }]}>{unavailable ? 'Unavailable now' : variant!.stock_qty <= 5 ? `Only ${variant!.stock_qty} packs left` : 'In stock'}</Text>
-      {product.season_status !== 'in_season' && <Text style={s.badge}>{product.season_status.replaceAll('_', ' ')}</Text>}
+      <Text style={[h.pack, { color: unavailable ? colors.muted : colors.green, minHeight: 32 }]}>{unavailable ? 'Unavailable now' : variant!.stock_qty <= 5 ? `Only ${variant!.stock_qty} packs left` : 'In stock'}</Text>
+      <View style={{ minHeight: 30 }}>{product.season_status !== 'in_season' && <Text style={s.badge}>{product.season_status.replaceAll('_', ' ')}</Text>}</View>
       <Button label={notify ? 'Notify me' : unavailable ? 'Unavailable' : 'Add to cart'} icon={notify ? 'notifications-outline' : unavailable ? undefined : 'add'} disabled={(unavailable && !notify) || shop.busy} onPress={() => notify ? navigation.navigate('Waitlist', { slug: product.slug }) : shop.perform(() => shop.add(variant!.id), product.name + ' added to cart.')} />
+      </View>
     </View>;
   })}</View></View>;
 }
@@ -156,7 +159,7 @@ export function WaitlistScreen({ route }: any) {
 
 const h = StyleSheet.create({
   content: { maxWidth: 1230, width: '100%', alignSelf: 'center', paddingHorizontal: 24 }, category: { flex: 1, gap: 12, alignItems: 'center', backgroundColor: '#FFFCF7', borderRadius: 15, paddingVertical: 22 }, categoryTitle: { fontSize: 19, color: colors.dark, fontWeight: '800' },
-  seasonStrip: { marginTop: 28, backgroundColor: '#FFF3DA', borderRadius: 13, padding: 22, gap: 15 }, grid: { flexDirection: 'row', flexWrap: 'wrap', gap: 16, alignItems: 'stretch' }, card: { gap: 9, paddingBottom: 16 },
+  seasonStrip: { marginTop: 28, backgroundColor: '#FFF3DA', borderRadius: 13, padding: 22, gap: 15 }, grid: { flexDirection: 'row', flexWrap: 'wrap', gap: 16, alignItems: 'stretch' }, card: { gap: 9, paddingBottom: 16 }, cardTitle: { minHeight: 48, lineHeight: 24 }, cardFooter: { marginTop: 'auto', gap: 9 },
   heart: { position: 'absolute', right: 8, top: 8, backgroundColor: '#FFFFFFE6', borderRadius: 12 }, productTitle: { color: colors.dark, fontSize: 18, fontWeight: '800', marginTop: 5 }, origin: { color: '#B05B15', fontSize: 12, flexShrink: 1 }, pack: { color: colors.muted, fontSize: 12 }, price: { color: colors.dark, fontSize: 20, fontWeight: '800', marginVertical: 3 },
   how: { backgroundColor: '#FFF8E9', paddingVertical: 24 }, footer: { backgroundColor: '#262320', paddingVertical: 24 },
 });

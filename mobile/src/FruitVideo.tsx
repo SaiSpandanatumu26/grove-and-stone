@@ -7,7 +7,7 @@ export function FruitVideo({ playing }: { playing: boolean }) {
   const [ready, setReady] = useState(false);
   const [size, setSize] = useState({ width: 0, height: 0 });
   const width = Math.max(size.width, size.height * 16 / 9);
-  const frame = { position: 'absolute' as const, top: 0, bottom: 0, width, right: size.width < 820 ? -(width - size.width) * .12 : -(width - size.width) / 2 };
+  const frame = { position: 'absolute' as const, top: 0, height: size.height, width, right: size.width < 820 ? -(width - size.width) * .12 : -(width - size.width) / 2 };
   const player = useVideoPlayer(require('../assets/hero/grove-and-stone-fruit-loop.mp4'), video => { video.loop = true; video.muted = true; });
   const { status } = useEvent(player, 'statusChange', { status: player.status });
   useEffect(() => { if (playing) player.play(); else player.pause(); }, [player, playing]);

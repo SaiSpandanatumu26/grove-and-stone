@@ -1,6 +1,6 @@
 # Grove & Stone
 
-**Current deployment target: free Render website/API + Supabase Free PostgreSQL + Expo EAS Android APK.** Read [FREE_DEPLOYMENT.md](FREE_DEPLOYMENT.md) for setup, limitations and current status. GitHub and Render are connected, the source is in the owner's private repository, and all 22 Supabase tables have been created with row-level security enabled. Render still needs the private database connection setting before deployment; no public website or signed APK is available yet.
+**Live website: [grove-and-stone-web.onrender.com](https://grove-and-stone-web.onrender.com).** The Flask API runs on Render Free and uses Supabase Free PostgreSQL. The source repository is private. Read [FREE_DEPLOYMENT.md](FREE_DEPLOYMENT.md) for operations and limitations. The Android source exports successfully; a signed APK remains to be built with Expo EAS.
 
 Latest validation: **41 backend tests passed** after adding optional website hosting. The Azure Bicep template compiles, the Expo web export builds, and its HTML/JavaScript/nested routes were verified through Flask. Earlier test counts below are historical.
 
@@ -70,7 +70,7 @@ Install `backend/requirements-fcm.txt`, configure `GOOGLE_APPLICATION_CREDENTIAL
 2. Review the completed checkout and support flows in `CHECKOUT_REVIEW.md`; approve shipping charges and policy values.
 3. Deployment is approved and GitHub/Render are connected. Enter the Supabase session-pooler connection string privately in Render to continue the steps in `FREE_DEPLOYMENT.md`. Live gateway/email/device tests still need credentials.
 
-The cloud database is initialized; the public website/API and signed Android build remain pending. The customer storefront is implemented; a separate visual admin website remains outstanding.
+The cloud database, public website and API are live. The signed Android build remains pending. The customer storefront is implemented; a separate visual admin website remains outstanding.
 
 References: [Flask factories](https://flask.palletsprojects.com/en/stable/patterns/appfactories/), [SQLAlchemy PostgreSQL](https://docs.sqlalchemy.org/en/20/dialects/postgresql.html), [Firebase Admin](https://firebase.google.com/docs/cloud-messaging/send/admin-sdk), [PGlite](https://pglite.dev/docs/).
 

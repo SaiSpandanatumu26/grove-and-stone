@@ -2,10 +2,10 @@
 # Disable Supabase Data API before deploying; see FREE_DEPLOYMENT.md.
 services:
   - type: web
-    name: grove-and-stone-api
+    name: grove-and-stone
     runtime: python
     plan: free
-    region: singapore
+    region: oregon
     autoDeployTrigger: off
     buildCommand: pip install -r requirements.txt
     startCommand: python -m flask --app backend init-db && gunicorn wsgi:app --bind 0.0.0.0:$PORT --workers 1 --threads 4 --timeout 60

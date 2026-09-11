@@ -44,7 +44,7 @@ export class ApiError extends Error {
   constructor(public status: number, message: string) { super(message); }
 }
 export async function api<T = any>(path: string, method = 'GET', data?: unknown, retry = true): Promise<T> {
-  const controller = new AbortController(), timeout = setTimeout(() => controller.abort(), 15000);
+  const controller = new AbortController(), timeout = setTimeout(() => controller.abort(), path === '/health' ? 90000 : 15000);
   try {
     const response = await fetch(API_URL + path, { method, signal: controller.signal, headers: {
       'Content-Type': 'application/json', 'X-Session-Id': guest,

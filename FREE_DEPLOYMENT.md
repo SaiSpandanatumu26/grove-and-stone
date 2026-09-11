@@ -7,10 +7,10 @@ Updated 11 September 2026. **This is the current deployment plan**, replacing th
 - Source uploaded to the owner's [private GitHub repository](https://github.com/SaiSpandanatumu26/grove-and-stone); GitHub's Private badge verified. Render is signed in and connected to this repository.
 - Supabase PostgreSQL 17.6 initialized successfully: 22 application tables, all 22 with row-level security enabled. The automatic Data API is disabled.
 - Sample catalog imported and verified: 19 products (8 mango varieties), 38 packs and 4 hero banners, plus 8 harvest entries and 3 sample delivery pincodes. Cloud customer and order counts are both zero. No local demo login or order was uploaded.
-- Render Blueprint form prepared. The owner must enter the private Session pooler connection string in `DATABASE_URL`; actual service URLs must then be configured and tested. No Render service or public website has been created yet.
+- Render services are live: [website](https://grove-and-stone-web.onrender.com) and [API health](https://grove-and-stone.onrender.com/api/v1/health). DATABASE_URL and SECRET_KEY are stored privately in Render. CORS allows the website origin; the static site has its SPA rewrite. Do not create duplicate services from the old Blueprint draft.
 - Expo CLI reports **Not logged in**. A signed Android APK has not been built; browser sign-in does not authenticate the CLI.
 
-The Supabase project is the owner's existing project in Sydney; Render's prepared API region is Singapore. No paid Azure resources or Render database were created.
+The Supabase project is the owner's existing project in Sydney; Render's existing API region is Oregon. No paid Azure resources or Render database were created.
 
 ## Selected services
 
@@ -42,7 +42,7 @@ The selected base plans cost $0 within their included limits, subject to account
 - Supabase Free includes a 500 MB database, two active projects, and 5 GB egress; inactive projects can pause after one week. This is a $0 plan rather than Render's 30-day PostgreSQL trial, but it is not an unlimited or guaranteed-permanent service. [Supabase pricing](https://supabase.com/pricing).
 - Expo currently lists up to 15 Android builds in the Free allowance. Check your account's remaining quota before starting; wait for renewal rather than upgrading if it is exhausted. [Expo pricing](https://expo.dev/pricing).
 
-The static website can load while the API wakes. Because the app currently times requests out after 15 seconds, the first cold visit can show a connection error: wait about a minute and use Retry/Reload. Ordinary active shopping keeps the API in use; no artificial keep-alive system is configured. The database can also require resuming in Supabase after inactivity.
+The static website can load while the API wakes. The app first waits up to 90 seconds for the health endpoint, then loads the catalog. Ordinary requests retain their 15-second timeout. If waking still fails, use Try again; writes are never automatically repeated. Ordinary active shopping keeps the API in use; no artificial keep-alive system is configured. The database can also require resuming in Supabase after inactivity.
 
 This is a project-review setup, not reliable always-on hosting for a busy shop. Keep separate database exports for anything valuable. Payment processor fees, SMS/email services, app-store enrollment, and a purchased domain are separate from hosting. Downloading/testing an APK does not require Google Play publication.
 
@@ -75,7 +75,7 @@ The current `render.yaml` defines two services and **no Render database**. It ac
 | --- | --- |
 | Type/runtime | Web Service / Python |
 | Name | `grove-and-stone-api` (availability checked in your account) |
-| Region / instance | Singapore / **Free** |
+| Region / instance | Oregon / **Free** |
 | Build command | `pip install -r requirements.txt` |
 | Start command | `python -m flask --app backend init-db && gunicorn wsgi:app --bind 0.0.0.0:$PORT --workers 1 --threads 4 --timeout 60` |
 | Health-check path | `/api/v1/health` |

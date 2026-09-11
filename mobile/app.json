@@ -19,7 +19,8 @@
         }
       ],
       "expo-font",
-      "expo-secure-store"
+      "expo-secure-store",
+      "expo-video"
     ],
     "android": {
       "package": "com.groveandstone.app"

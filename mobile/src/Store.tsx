@@ -31,6 +31,8 @@ function useShopState() {
   async function reload() {
     setFailed(false);
     const ok = await perform(async () => {
+      // A sleeping free host may need a minute before ordinary API requests can run.
+      await api('/health');
       const [items, slides, hub, current] = await Promise.all([all<Product>('/products'), api<{ items: Banner[] }>('/banners'), api<{ varieties: Season[] }>('/mango-season'), api<Cart>('/cart')]);
       setProducts(items); setBanners(slides.items); setSeasons(hub.varieties); setCart(current);
       if (signedIn()) { setCustomer(await api<Customer>('/me')); await refreshWishlist(); }

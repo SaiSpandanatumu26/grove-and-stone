@@ -45,7 +45,7 @@ function Storefront() {
   const shop = useShop(), count = shop.cart?.lines.reduce((sum, line) => sum + line.qty, 0) || 0;
   return <View style={{ flex: 1, backgroundColor: '#FFFFFF' }}>
     {!!shop.notice && <View accessibilityLiveRegion="polite" style={[s.between, { paddingHorizontal: 18, backgroundColor: '#FFF0D8', minHeight: 50 }]}><Text style={{ color: '#77440B', flex: 1, fontSize: 14 }}>{shop.notice}</Text><IconButton label="Dismiss message" icon="close" onPress={() => shop.setNotice('')} /></View>}
-    {!shop.ready ? <View style={s.empty}><ActivityIndicator color={colors.orange} /><Text style={s.copy}>Getting the grove ready…</Text></View> : shop.failed ? <View style={s.empty}><Text style={s.copy}>The shop could not load.</Text><Button label="Try again" onPress={shop.reload} disabled={shop.busy} /></View> :
+    {!shop.ready ? <View style={s.empty}><ActivityIndicator color={colors.orange} /><Text style={s.copy}>Getting the grove ready... The first visit may take about a minute.</Text></View> : shop.failed ? <View style={s.empty}><Text style={s.copy}>The shop could not load.</Text><Button label="Try again" onPress={shop.reload} disabled={shop.busy} /></View> :
       <NavigationContainer theme={theme}><Tab.Navigator initialRouteName="Home" backBehavior="history" screenOptions={({ route }) => ({
         headerShown: false, tabBarActiveTintColor: colors.orange, tabBarInactiveTintColor: '#8A847C', tabBarStyle: { borderTopColor: colors.line, minHeight: 66 }, tabBarItemStyle: { minHeight: 56 }, tabBarLabelStyle: { fontSize: 12, fontWeight: '700' },
         tabBarIcon: ({ color }) => <Icon name={icons[route.name]} color={color} size={22} />,

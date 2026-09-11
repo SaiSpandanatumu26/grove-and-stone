@@ -1,6 +1,6 @@
 # Grove & Stone — a beginner's guide
 
-**Latest hosting update (11 September 2026):** Render will host the website and Flask API, Supabase Free stores PostgreSQL data, and Expo EAS will build the Android APK. The private GitHub repository is connected and the 22 cloud database tables are initialized. The public website/API and signed APK remain pending. Read [the free deployment guide](FREE_DEPLOYMENT.md) for the remaining account and connection steps.
+**Latest hosting update (11 September 2026):** Open [the live website](https://grove-and-stone-web.onrender.com). Render hosts the website and Flask API; Supabase stores the database. The repository is private. A signed Android APK still requires an Expo EAS build. Read [the free deployment guide](FREE_DEPLOYMENT.md).
 
 This guide assumes you have never built an app or website. It explains the shop, its screens and controls, the purchase flow, the technologies, and the code files.
 
@@ -514,13 +514,13 @@ flowchart LR
 | `mobile/eas.json` | Internal preview APK and production AAB build profiles. |
 | `FREE_DEPLOYMENT.md` | Current commands, dashboard steps and deployment status. |
 
-Your deployment approval is recorded. GitHub and Render are connected, and the repository is private. Supabase has all 22 application tables with row-level security enabled; its automatic Data API is disabled because the app uses Flask for access. The Render form needs your private Supabase database connection string. Enter it on Render, never in chat or GitHub.
+Your deployment approval is recorded. GitHub and Render are connected, and the repository is private. Supabase has all 22 application tables with row-level security enabled; its automatic Data API is disabled because the app uses Flask for access. The private connection string and signing secret are saved in Render environment settings. Keep them out of chat and GitHub.
 
 The current Render recipe includes **both the API and website** as separate services. Once created, their actual HTTPS addresses must be connected in the settings and tested. The Android APK will use that same API. Expo's command-line build tool still needs account sign-in; signing into its website alone does not sign that tool in.
 
 We are using Supabase Free for the database, avoiding Render's expiring database trial. Render's free API sleeps while idle, and inactive Supabase Free projects can pause. See [FREE_DEPLOYMENT.md](FREE_DEPLOYMENT.md) for the limits and what a slow first visit means.
 
-Before a real launch: finish the hosting connection and Expo sign-in; arrange backups and a push/refund worker; replace sample catalog/business values; configure/test real payments, email, and push; test an installed Android build. A separate staff website, phone OTP/social login, waitlist email/SMS delivery, and public web deployment are not complete. Administrative JSON endpoints exist, but there is no finished visual staff dashboard.
+Before a real launch: finish Expo CLI sign-in; arrange backups and a push/refund worker; replace sample catalog/business values; configure/test real payments, email, and push; test an installed Android build. A separate staff website, phone OTP/social login, and waitlist email/SMS delivery are not complete. Administrative JSON endpoints exist, but there is no finished visual staff dashboard.
 
 ## Glossary
 

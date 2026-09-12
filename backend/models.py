@@ -465,6 +465,71 @@ class PushDelivery(db.Model):
     __table_args__ = (UniqueConstraint("message_id", "device_id"), Check("attempts >= 0", name="attempts_nonnegative"))
 
 
+class OwnerAlert(db.Model):
+    """Durable owner inbox and email outbox, committed with the order."""
+    __tablename__ = "owner_alert"
+    id = pk()
+    order_id = fk("orders.id", ondelete="CASCADE")
+    kind = db.Column(db.String(30), nullable=False)
+    created_at = timestamp()
+    seen_at = db.Column(db.DateTime(timezone=True))
+    sent_at = db.Column(db.DateTime(timezone=True))
+    next_attempt_at = timestamp()
+    attempts = db.Column(db.Integer, nullable=False, default=0, server_default=text("0"))
+    last_error = db.Column(db.String(120))
+    order = db.relationship("Order")
+    __table_args__ = (UniqueConstraint("order_id", "kind"), Check("attempts >= 0", name="attempts_nonnegative"))
+
+
+class AdminInvite(db.Model):
+    """One-use bootstrap invitation, issued only from the privileged CLI."""
+    __tablename__ = "admin_invite"
+    id = pk()
+    email = db.Column(db.String(320), nullable=False)
+    name = db.Column(db.String(100), nullable=False)
+    token_digest = db.Column(db.String(64), nullable=False, unique=True)
+    expires_at = db.Column(db.DateTime(timezone=True), nullable=False)
+    used_at = db.Column(db.DateTime(timezone=True))
+
+
+class Shipment(db.Model):
+    __tablename__ = "shipment"
+    order_id = fk("orders.id", ondelete="CASCADE", unique=True)
+    id = pk()
+    carrier = db.Column(db.String(100), nullable=False)
+    tracking_number = db.Column(db.String(100), nullable=False)
+    tracking_url = db.Column(db.String(2048))
+    updated_at = timestamp()
+
+
+class ShopSetting(db.Model):
+    """Non-secret business settings. Provider secrets stay in environment variables."""
+    __tablename__ = "shop_setting"
+    key = db.Column(db.String(80), primary_key=True)
+    value = db.Column(JSONB, nullable=False)
+
+
+class AdminAudit(db.Model):
+    __tablename__ = "admin_audit"
+    id = pk()
+    admin_id = fk("admin_user.id", nullable=True, ondelete="SET NULL")
+    method = db.Column(db.String(10), nullable=False)
+    path = db.Column(db.String(300), nullable=False)
+    created_at = timestamp()
+
+
+class PostalArea(db.Model):
+    """Postal reference data; inclusion never enables delivery."""
+    __tablename__ = "postal_area"
+    pincode = db.Column(db.String(6), primary_key=True)
+    district = db.Column(db.String(120), nullable=False)
+    state = db.Column(db.String(120), nullable=False)
+    offices = db.Column(ARRAY(db.Text), nullable=False)
+    source = db.Column(db.String(500), nullable=False)
+    updated_at = timestamp()
+    __table_args__ = (pincode_check(),)
+
+
 # PostgreSQL transaction-level invariants cannot be expressed by row CHECKs.
 from .schema_invariants import register_invariants  # noqa: E402
 register_invariants(db.metadata)

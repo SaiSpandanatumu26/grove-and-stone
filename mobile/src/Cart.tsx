@@ -1,5 +1,5 @@
 import { useState } from 'react';
-import { Pressable, Text, View } from 'react-native';
+import { Linking, Pressable, Text, View } from 'react-native';
 import { useNavigation } from '@react-navigation/native';
 import { api } from './api';
 import { useShop } from './Store';
@@ -8,13 +8,18 @@ import { Button, colors, Copy, Empty, Eyebrow, Field, Heading, IconButton, money
 
 export function PincodeScreen() {
   const shop = useShop(), [pincode, setPincode] = useState(shop.cart?.pincode || ''), [result, setResult] = useState('');
+  const [town, setTown] = useState(''), [places, setPlaces] = useState<{ pincode: string; district: string; state: string; localities: string[] }[]>([]), [searched, setSearched] = useState(false);
   const check = () => shop.perform(async () => {
     if (!/^[0-9]{6}$/.test(pincode)) throw new Error('Enter a valid 6-digit pincode.');
     const value = await api('/cart/pincode', 'PUT', { pincode }); shop.setCart(value.cart);
     const area = value.pincode_service;
     setResult(area.serviceable ? `${area.city} · ${area.delivery_days_min}–${area.delivery_days_max} days. ${area.mango_eligible ? 'Fresh fruits and dry fruits can be delivered here.' : 'Dry fruit delivery available. Fresh fruit delivery is unavailable here.'}` : 'We don’t deliver to this pincode yet. Try another delivery location.');
   });
-  return <Page><View style={[s.panel, { maxWidth: 620 }]}><Eyebrow>LET’S FIND YOUR NEIGHBOURHOOD</Eyebrow><Heading>Where shall we deliver?</Heading><Copy>Check availability before filling your basket.</Copy><Field label="Delivery pincode" placeholder="6-digit pincode" value={pincode} onChangeText={value => { setPincode(value); setResult(''); }} keyboardType="number-pad" maxLength={6} onSubmitEditing={check} /><Button label="Check availability" icon="location-outline" disabled={shop.busy} onPress={check} />{!!result && <Text accessibilityLiveRegion="polite" style={s.copy}>{result}</Text>}</View></Page>;
+  return <Page><View style={[s.panel, { maxWidth: 620 }]}><Eyebrow>LET’S FIND YOUR NEIGHBOURHOOD</Eyebrow><Heading>Where shall we deliver?</Heading><Copy>Check availability before filling your basket.</Copy><Field label="Delivery pincode" placeholder="6-digit pincode" value={pincode} onChangeText={value => { setPincode(value); setResult(''); }} keyboardType="number-pad" maxLength={6} onSubmitEditing={check} /><Button label="Check availability" icon="location-outline" disabled={shop.busy} onPress={check} />{!!result && <Text accessibilityLiveRegion="polite" style={s.copy}>{result}</Text>}
+    <Heading>Find your pincode</Heading><Field label="City, town or locality" value={town} onChangeText={setTown} placeholder="Search your neighbourhood" maxLength={80} /><Button label="Search places" quiet disabled={shop.busy || town.trim().length < 2} onPress={() => shop.perform(async () => { const data = await api('/delivery/places?q=' + encodeURIComponent(town.trim())); setPlaces(data.items); setSearched(true); })} />
+    {places.map(place => <View key={place.pincode} style={{ gap: 8 }}><Copy>{place.localities.join(', ')} · {place.district}, {place.state}</Copy><Button label={'Use ' + place.pincode} quiet onPress={() => { setPincode(place.pincode); setResult('Pincode selected. Tap Check availability to confirm delivery.'); }} /></View>)}
+    {searched && !places.length && <Copy>No matching places. Try a district name or enter your six-digit pincode directly.</Copy>}<Copy>Postal reference data does not guarantee delivery. Check your selected pincode above.</Copy><Button label="Postal data: GeoNames" quiet onPress={() => Linking.openURL('https://www.geonames.org/')} />
+  </View></Page>;
 }
 
 export function CartScreen() {
@@ -40,7 +45,8 @@ export function CartScreen() {
         {!!cart.block_reason && !['LOGIN_REQUIRED', 'PINCODE_REQUIRED'].includes(cart.block_reason) && <Copy>{({ PINCODE_NOT_SERVICEABLE: 'This pincode is not serviceable.', MANGO_NOT_ELIGIBLE: 'Fresh fruit delivery is not available for this pincode.', PRODUCT_UNAVAILABLE: 'An item is no longer available. Remove it to continue.', INSUFFICIENT_STOCK: 'A pack has insufficient stock. Reduce its quantity or remove it.' } as Record<string, string>)[cart.block_reason] || cart.block_reason}</Copy>}
         {!shop.customer && <Button label="Log in to check out" icon="person-outline" onPress={() => navigation.getParent()?.navigate('Account', { screen: 'Landing', params: { next: 'Checkout' } })} />}
         {shop.stockIssue && <Copy>Stock has changed. Update the items above before checking out.</Copy>}
-        {!!shop.customer && <Button label="Continue to checkout" icon="arrow-forward" onPress={() => navigation.navigate('Checkout')} disabled={shop.busy || shop.stockIssue} />}
+        {!shop.shopInfo.ordering_enabled && <Copy>Ordering is currently paused while delivery coverage is prepared. You can keep items in your basket and check back soon.</Copy>}
+        {!!shop.customer && <Button label="Continue to checkout" icon="arrow-forward" onPress={() => navigation.navigate('Checkout')} disabled={shop.busy || shop.stockIssue || !shop.shopInfo.ordering_enabled} />}
       </View>
     </View>
   </Page>;

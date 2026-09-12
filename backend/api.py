@@ -131,7 +131,7 @@ def database_error(error):
 
 
 def install_api(app):
-    from . import auth, catalog, carts, customers, admin, notifications, storefront, checkout, content  # noqa: F401
+    from . import auth, catalog, carts, customers, admin, notifications, storefront, checkout, content, operations  # noqa: F401
     app.register_blueprint(api)
 
     @app.errorhandler(APIError)
@@ -156,7 +156,13 @@ def install_api(app):
     @app.after_request
     def finish(response):
         try:
-            if response.status_code < 400: db.session.commit()
+            if response.status_code < 400:
+                from flask import g
+                from .models import AdminUser, AdminAudit
+                if request.method in {'POST', 'PUT', 'PATCH', 'DELETE'} and isinstance(getattr(g, 'actor', None), AdminUser):
+                    db.session.add(AdminAudit(admin_id=g.actor.id, method=request.method, path=request.path[:300]))
+                db.session.commit()
+                operations.kick_owner_dispatch(app)
             else: db.session.rollback()
         except SQLAlchemyError as error: response = app.make_response(database_error(error))
         response.headers["Cache-Control"] = "no-store"

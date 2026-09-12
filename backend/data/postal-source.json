@@ -1,0 +1,11 @@
+{
+  "source": "https://download.geonames.org/export/zip/IN.zip",
+  "publisher": "GeoNames",
+  "license": "CC BY 4.0",
+  "attribution": "https://www.geonames.org/",
+  "downloaded_at": "2026-09-12T12:09:34.106118+00:00",
+  "archive_sha256": "953c7edcfd6fd2cd255cf3350602b3a91353c08ea28bafda485c321efaccba6a",
+  "localities": 155570,
+  "pincodes": 19238,
+  "delivery_coverage": false
+}

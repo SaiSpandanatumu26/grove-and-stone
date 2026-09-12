@@ -41,6 +41,8 @@ def create_app(config=None):
     install_api(app)
     from .web import install_web
     install_web(app)
+    from .operations import install_operations
+    install_operations(app)
     install_commands(app)
     from .checkout import install_checkout_commands
     install_checkout_commands(app)
@@ -61,6 +63,11 @@ def create_app(config=None):
         from sqlalchemy import text
         db.session.execute(text("SELECT pg_advisory_xact_lock(741805231)"))
         db.metadata.create_all(bind=db.session.connection())
+        # These operational tables are private even if the provider exposes a Data API.
+        for table in ('owner_alert', 'admin_invite', 'shipment', 'shop_setting', 'admin_audit', 'postal_area'):
+            db.session.execute(text(f'ALTER TABLE "{table}" ENABLE ROW LEVEL SECURITY'))
+        from .operations import load_bundled_postal
+        load_bundled_postal()
         db.session.commit()
         click.echo("Grove & Stone schema created. Existing tables are not migrated.")
 

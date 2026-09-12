@@ -371,3 +371,19 @@ These support the documented checkout/cancellation flow without changing the dom
 | RefundRequest | Durable full-order refund queue | Order PK/FK; positive amount; pending/submitted/processed status; unique optional gateway reference |
 
 All three use UUID order foreign keys with cascade deletion. Snapshots remain on Order and OrderLine. The refund table stores operational metadata, not card/UPI credentials. Total implemented tables: 22.
+
+
+## Owner operations extensions (13 September 2026)
+
+Requested for real order administration. The schema now has 28 tables; the original category and payment enums remain unchanged.
+
+| Table | Purpose | Key constraints |
+| --- | --- | --- |
+| OwnerAlert | Durable new-order/cancellation inbox and email retries | Unique order/event; order FK cascade; nonnegative attempts |
+| AdminInvite | Private owner activation | Unique SHA-256 token digest; expiry and used timestamp; no plaintext token stored |
+| Shipment | Courier and tracking details | One row per order; order FK cascade |
+| ShopSetting | Non-secret business details and launch confirmations | Setting name primary key; JSONB value |
+| AdminAudit | Staff action history | Nullable staff FK with SET NULL; method/path/time only |
+| PostalArea | Nationwide pincode reference | Six-digit primary key; district/state/post offices/source; separate from PincodeService |
+
+Postal reference entries never authorize delivery. Production checkout stays closed until the owner confirms business details, stock/prices, delivery coverage and policies. New tables have row-level security enabled on initialization. Existing databases receive these additive tables through `init-db`; full schema SQL is only for empty databases. See [Owner guide](../OWNER_GUIDE.md).

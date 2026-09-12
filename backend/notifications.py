@@ -24,6 +24,8 @@ def season_opened(season):
 
 
 def order_changed(order):
+    from .operations import enqueue_owner
+    enqueue_owner(order)
     if order.customer_id:
         enqueue(order.customer_id, f"Order {order.order_number} {order.status}", f"Your order is now {order.status}.", "order", order_number=order.order_number)
 

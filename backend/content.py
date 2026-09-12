@@ -20,8 +20,9 @@ def health():
 
 @api.get('/shop-info')
 def shop_info():
+    from .operations import setting, accepting_orders
     config = current_app.config
-    return respond(dict(support_email=config['SUPPORT_EMAIL'], support_phone=config['SUPPORT_PHONE'], quality_report_hours=config['QUALITY_REPORT_HOURS'],
+    return respond(dict(support_email=setting('support_email'), support_phone=setting('support_phone'), business_name=setting('business_name', 'Grove & Stone'), business_address=setting('business_address'), ordering_enabled=accepting_orders(), quality_report_hours=config['QUALITY_REPORT_HOURS'],
                         contact_backend=config['CONTACT_BACKEND'], shipping_fee=config['SHIPPING_FEE'], free_shipping_threshold=config['FREE_SHIPPING_THRESHOLD']))
 
 
@@ -35,10 +36,12 @@ def contact():
     try: data['email'] = validate_email(data['email'], check_deliverability=False).normalized
     except (EmailNotValidError, AttributeError, TypeError): invalid('email', 'Enter a valid email address.')
     config = current_app.config
+    from .operations import setting
+    support_email = setting('support_email')
     if config['CONTACT_BACKEND'] == 'demo': return respond({'message': 'Demo form validated. No email was sent.', 'demo': True})
-    if config['CONTACT_BACKEND'] != 'resend' or not all(config.get(key) for key in ('RESEND_API_KEY', 'CONTACT_FROM', 'SUPPORT_EMAIL')):
+    if config['CONTACT_BACKEND'] != 'resend' or not support_email or not all(config.get(key) for key in ('RESEND_API_KEY', 'CONTACT_FROM')):
         fail(503, 'CONTACT_UNAVAILABLE', 'The contact form is not configured yet. Please use the support details if shown.')
-    payload = {'from': config['CONTACT_FROM'], 'to': [config['SUPPORT_EMAIL']], 'reply_to': data['email'], 'subject': 'Grove & Stone customer enquiry',
+    payload = {'from': config['CONTACT_FROM'], 'to': [support_email], 'reply_to': data['email'], 'subject': 'Grove & Stone customer enquiry',
                'text': '\n'.join(f'{key}: {value}' for key, value in data.items())}
     req = Request('https://api.resend.com/emails', data=json.dumps(payload).encode(), headers={'Authorization': 'Bearer ' + config['RESEND_API_KEY'], 'Content-Type': 'application/json'})
     try:

@@ -2,7 +2,7 @@
 from datetime import date
 
 from flask import g, request
-from sqlalchemy import func, select
+from sqlalchemy import func, select, or_
 from sqlalchemy.dialects.postgresql import insert
 
 from .api import api, assign, body, fail, get_row, integer, invalid, json_value, paginated, respond, uid
@@ -71,7 +71,16 @@ def inventory():
 def register_resource(path, model, fields, required):
     """Same validated CRUD contract for the two small admin configuration resources."""
     def listing():
-        if request.method == "GET": return respond({"items": db.session.scalars(select(model).order_by(*model.__table__.primary_key.columns)).all()})
+        if request.method == "GET":
+            query = select(model)
+            if model is PincodeService:
+                if term := request.args.get('search'):
+                    query = query.where(or_(model.pincode.startswith(term, autoescape=True), model.city.icontains(term, autoescape=True), model.state.icontains(term, autoescape=True)))
+                if status := request.args.get('serviceable'):
+                    if status not in {'true', 'false'}: invalid('serviceable', 'Use true or false.')
+                    query = query.where(model.serviceable.is_(status == 'true'))
+                return respond(paginated(query.order_by(model.pincode)))
+            return respond({"items": db.session.scalars(query.order_by(*model.__table__.primary_key.columns)).all()})
         row = assign(model(), body(fields, required), fields, required)
         db.session.add(row)
         db.session.flush()
@@ -140,7 +149,7 @@ def admin_orders():
         if value := request.args.get(key):
             column = Order.__table__.c[key]
             if hasattr(column.type, "enums") and value not in column.type.enums: invalid(key, "Invalid filter.")
-            query = query.where(getattr(Order, key) == value)
+            query = query.where(Order.order_number.icontains(value, autoescape=True) if key == 'order_number' else getattr(Order, key) == value)
     for key in ("date_from", "date_to"):
         if value := request.args.get(key):
             try: day = date.fromisoformat(value)
@@ -173,8 +182,12 @@ def fulfillment(key):
 @api.get("/admin/dashboard")
 @require("admin", {"admin", "packer"})
 def dashboard():
+    from datetime import datetime, timedelta, timezone
+    today = (datetime.now(timezone.utc) + timedelta(hours=5, minutes=30)).date()
+    start = datetime.combine(today, datetime.min.time(), timezone(timedelta(hours=5, minutes=30)))
+    end = start + timedelta(days=1)
     count = lambda model, condition: db.session.scalar(select(func.count()).select_from(model).where(condition))
-    return respond(dict(orders_today=count(Order, func.date(Order.created_at) == date.today()),
+    return respond(dict(orders_today=count(Order, (Order.created_at >= start) & (Order.created_at < end)),
                         pending_pack=count(Order, Order.status == "confirmed"), mango_live=count(MangoSeason, MangoSeason.status == "live"),
                         low_stock=count(Variant, Variant.stock_qty < 10), recent_orders=db.session.scalars(select(Order).order_by(Order.created_at.desc()).limit(10)).all(),
                         seasons=db.session.scalars(select(MangoSeason).order_by(MangoSeason.harvest_start)).all()))

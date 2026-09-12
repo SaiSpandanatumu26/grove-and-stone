@@ -8,7 +8,7 @@ from backend.models import Customer, AdminUser, ORDER_PAYMENT_STATUS, PAYMENT_ST
 
 def test_all_relationships_configure():
     configure_mappers()
-    assert len(db.metadata.tables) == 22
+    assert len(db.metadata.tables) == 28
     assert "search_query" not in db.metadata.tables
 
 

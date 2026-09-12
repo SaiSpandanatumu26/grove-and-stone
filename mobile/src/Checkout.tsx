@@ -84,7 +84,7 @@ export function OrderScreen({ route }: any) {
   const shop = useShop(), navigation = useNavigation<any>(), focused = useIsFocused(), [order, setOrder] = useState<Order | null>(null), [error, setError] = useState(''), [confirm, setConfirm] = useState(false);
   const load = () => api<Order>('/orders/' + route.params.number).then(value => { setOrder(value); setError(''); }).catch(error => setError(error.message));
   useEffect(() => { if (focused) load(); }, [route.params.number, focused]);
-  useEffect(() => { if (!focused || order?.status !== 'pending_payment') return; const timer = setInterval(load, 6000); return () => clearInterval(timer); }, [focused, order?.status]);
+  useEffect(() => { if (!focused || !order || ['delivered', 'cancelled'].includes(order.status)) return; const timer = setInterval(load, 10000); return () => clearInterval(timer); }, [focused, order?.status]);
   const demo = (outcome: string) => shop.perform(async () => setOrder(await api('/orders/' + order!.order_number + '/demo-payment', 'POST', { outcome })));
   if (!order) return <Page><Copy>{error || 'Loading your order…'}</Copy><Button label="Try again" onPress={load} /></Page>;
   const expired = !!order.payment_expires_at && Date.parse(order.payment_expires_at) <= Date.now(), steps = ['confirmed', 'packed', 'shipped', 'delivered'];
@@ -92,6 +92,7 @@ export function OrderScreen({ route }: any) {
     {!!error && <Copy>{error}</Copy>}
     <View style={s.panel}><View style={s.wrap}>{steps.map((step, index) => <Text key={step} style={[s.badge, { opacity: order.status !== 'cancelled' && steps.indexOf(order.status) >= index ? 1 : 0.4 }]}>{index + 1}. {step[0].toUpperCase() + step.slice(1)}</Text>)}</View>
       <Copy>Delivery date: {dateLabel(order.delivery_date)}</Copy><Copy>Payment: {order.payment_method.toUpperCase()} · {order.payment_status}</Copy>
+      {!!order.shipment && <><Copy>Delivery partner: {order.shipment.carrier} · Reference: {order.shipment.tracking_number}</Copy>{!!order.shipment.tracking_url && <Button label="Track delivery" quiet onPress={() => Linking.openURL(order.shipment!.tracking_url!)} />}</>}
       {order.status === 'pending_payment' && <>{expired ? <Copy>The payment window has expired. Start a new cart or contact support.</Copy> : <><Copy>{order.payment_status === 'failed' ? 'Payment failed. Try again.' : 'Your items are reserved for 30 minutes while you pay.'}</Copy>
         {order.payment_backend === 'demo' ? <><Copy>LOCAL PAYMENT SIMULATOR · No real charge.</Copy><View style={s.wrap}><Button label="Simulate successful payment" disabled={shop.busy} onPress={() => demo('success')} /><Button label="Simulate failed payment" quiet disabled={shop.busy} onPress={() => demo('failure')} /></View></> : <Button label="Open secure payment" disabled={shop.busy} onPress={() => shop.perform(async () => { const session = await api('/orders/' + order.order_number + '/payment-session', 'POST', {}); await Linking.openURL(session.url); })} />}</>}</>}
       {!!order.refund && <Copy>Refund: {order.refund.status === 'processed' ? 'Processed' : 'Requested; awaiting processing'} · {money(order.refund.amount)}{order.payment_backend === 'demo' ? ' (local demo)' : ''}</Copy>}

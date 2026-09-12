@@ -4,6 +4,7 @@ import { useStock, withStock } from './stock';
 
 function useShopState() {
   const [products, setProducts] = useState<Product[]>([]), [banners, setBanners] = useState<Banner[]>([]), [seasons, setSeasons] = useState<Season[]>([]);
+  const [shopInfo, setShopInfo] = useState<{ ordering_enabled: boolean; business_name?: string }>({ ordering_enabled: false });
   const [cart, setCart] = useState<Cart | null>(null), [customer, setCustomer] = useState<Customer | null>(null), [wishlist, setWishlist] = useState<Product[]>([]);
   const [busy, setBusy] = useState(false), [ready, setReady] = useState(false), [notice, setNotice] = useState(''), [failed, setFailed] = useState(false);
   const pending = useRef(false);
@@ -33,6 +34,7 @@ function useShopState() {
     const ok = await perform(async () => {
       // A sleeping free host may need a minute before ordinary API requests can run.
       await api('/health');
+      setShopInfo(await api('/shop-info'));
       const [items, slides, hub, current] = await Promise.all([all<Product>('/products'), api<{ items: Banner[] }>('/banners'), api<{ varieties: Season[] }>('/mango-season'), api<Cart>('/cart')]);
       setProducts(items); setBanners(slides.items); setSeasons(hub.varieties); setCart(current);
       if (signedIn()) { setCustomer(await api<Customer>('/me')); await refreshWishlist(); }
@@ -53,7 +55,7 @@ function useShopState() {
     await api('/me/wishlist/' + product.id, wishlist.some(item => item.id === product.id) ? 'DELETE' : 'PUT', undefined);
     await refreshWishlist();
   }
-  return { products, banners, seasons, cart: liveCart, setCart, customer, setCustomer, wishlist, busy, ready, failed, notice, setNotice, perform, reload, refreshCart, authenticate, logout, add, toggleWishlist, ...live, liveProduct, stockIssue };
+  return { products, banners, seasons, shopInfo, cart: liveCart, setCart, customer, setCustomer, wishlist, busy, ready, failed, notice, setNotice, perform, reload, refreshCart, authenticate, logout, add, toggleWishlist, ...live, liveProduct, stockIssue };
 }
 const Shop = createContext<ReturnType<typeof useShopState> | null>(null);
 export const useShop = () => useContext(Shop)!;

@@ -2,9 +2,9 @@
 
 **Live website: [grove-and-stone-web.onrender.com](https://grove-and-stone-web.onrender.com).** The Flask API runs on Render Free and uses Supabase Free PostgreSQL. The source repository is private. Read [FREE_DEPLOYMENT.md](FREE_DEPLOYMENT.md) for operations and limitations. The Android source exports successfully; a signed APK remains to be built with Expo EAS.
 
-Latest validation: **41 backend tests passed** after adding optional website hosting. The Azure Bicep template compiles, the Expo web export builds, and its HTML/JavaScript/nested routes were verified through Flask. Earlier test counts below are historical.
+Latest validation: **51 backend tests passed**, followed by **37 focused regression tests** after final backend changes. Expo web and Android exports and TypeScript checks passed. The new owner dashboard covers orders, stock, delivery areas, alerts, offers and team access; see [OWNER_GUIDE.md](OWNER_GUIDE.md) for setup and remaining launch requirements. Earlier test counts below are historical.
 
-**New to this project? Start with [the beginner guide](BEGINNER_GUIDE.md).** It explains every main website screen/control, the complete shopping flow, each technology and code file, all 22 database models, API requests, local setup, troubleshooting, and deployment. No programming background is assumed. Flow diagrams show how the parts connect.
+**New to this project? Start with [the beginner guide](BEGINNER_GUIDE.md).** It explains every main website screen/control, the complete shopping flow, each technology and code file, the original 22 database models (six operational additions are explained in the owner guide), API requests, local setup, troubleshooting, and deployment. No programming background is assumed. Flow diagrams show how the parts connect.
 
 Open [the local website](http://localhost:8081/) while its servers are running. Latest additions and test evidence: [CATALOG_REVIEW.md](CATALOG_REVIEW.md). Developer commands are below and in [DEVELOPMENT.md](DEVELOPMENT.md).
 
@@ -70,7 +70,7 @@ Install `backend/requirements-fcm.txt`, configure `GOOGLE_APPLICATION_CREDENTIAL
 2. Review the completed checkout and support flows in `CHECKOUT_REVIEW.md`; approve shipping charges and policy values.
 3. Deployment is approved and GitHub/Render are connected. Enter the Supabase session-pooler connection string privately in Render to continue the steps in `FREE_DEPLOYMENT.md`. Live gateway/email/device tests still need credentials.
 
-The cloud database, public website and API are live. The signed Android build remains pending. The customer storefront is implemented; a separate visual admin website remains outstanding.
+The cloud database, public website and API are live. The signed Android build remains pending. The owner workspace, durable order alerts, shipment tracking references, COD collection, delivery import and nationwide postal reference search are implemented. See [OWNER_GUIDE.md](OWNER_GUIDE.md) for operation and current release blockers. Live payments are deferred; real delivery coverage and email-provider activation still need owner details. Production ordering defaults to paused until business setup is reviewed.
 
 References: [Flask factories](https://flask.palletsprojects.com/en/stable/patterns/appfactories/), [SQLAlchemy PostgreSQL](https://docs.sqlalchemy.org/en/20/dialects/postgresql.html), [Firebase Admin](https://firebase.google.com/docs/cloud-messaging/send/admin-sdk), [PGlite](https://pglite.dev/docs/).
 

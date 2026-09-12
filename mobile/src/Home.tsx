@@ -55,6 +55,7 @@ export function HomeScreen() {
   const scroll = useRef<ScrollView>(null), catalogY = useRef(0), contentY = useRef(0), wide = useWide();
   const choose = (key: Category | 'all') => { setCategory(key); scroll.current?.scrollTo({ y: contentY.current + catalogY.current, animated: true }); };
   return <ScrollView ref={scroll} style={s.page} contentContainerStyle={{ paddingBottom: 36 }}>
+    {!shop.shopInfo.ordering_enabled && <View style={{ backgroundColor: colors.cream, padding: 14 }}><Copy>We’re preparing delivery coverage. Browse the collection; ordering will open soon.</Copy></View>}
     <Hero choose={choose} mangoSeason={() => navigation.getParent()?.navigate('Mangoes')} />
     <View style={h.content} onLayout={event => { contentY.current = event.nativeEvent.layout.y; }}>
       <View style={[s.between, { flexWrap: 'wrap', paddingVertical: 24 }]}>
@@ -83,7 +84,7 @@ export function HomeScreen() {
         ['location-outline', 'Select location', 'Check your pincode for delivery availability.'], ['bag-handle-outline', 'Choose your favourites', 'Pick your fruits, dry fruits and the perfect pack.'], ['receipt-outline', 'Review your basket', 'See every item and the included GST clearly.'], ['leaf-outline', 'Enjoy the good stuff', 'Origin stories, seasonal picks and everyday goodness.'],
       ].map(([icon, title, body]) => <View key={title} style={{ alignItems: 'center', gap: 12, width: wide ? '21%' : '45%', paddingVertical: 20 }}><Icon name={icon as any} size={42} /><Text style={[s.label, { textAlign: 'center', fontSize: 17 }]}>{title}</Text><Text style={[s.copy, { textAlign: 'center' }]}>{body}</Text></View>)}</View>
     </View></View>
-    <View style={h.footer}><View style={[s.container, { padding: 24 }]}><Text style={{ color: '#FFFFFF', fontSize: 24, fontWeight: '800' }}>grove<Text style={{ color: colors.yellow }}>&stone</Text></Text><Text style={{ color: '#CCC6BF', lineHeight: 24 }}>Exotic fruits. Dry fruits. Seasonal mangoes. A basket full of possibilities.</Text><View style={s.wrap}>{infoPages.map(page => <Button key={page} label={page} quiet onPress={() => navigation.navigate('Info', { page })} />)}</View><Text style={{ color: '#A8A199', fontSize: 12 }}>Project preview · Sample catalog and prices for review</Text></View></View>
+    <View style={h.footer}><View style={[s.container, { padding: 24 }]}><Text style={{ color: '#FFFFFF', fontSize: 24, fontWeight: '800' }}>grove<Text style={{ color: colors.yellow }}>&stone</Text></Text><Text style={{ color: '#CCC6BF', lineHeight: 24 }}>Exotic fruits. Dry fruits. Seasonal mangoes. A basket full of possibilities.</Text><View style={s.wrap}>{infoPages.map(page => <Button key={page} label={page} quiet onPress={() => navigation.navigate('Info', { page })} />)}</View><Text style={{ color: '#A8A199', fontSize: 12 }}>{shop.shopInfo.ordering_enabled ? 'Thank you for shopping with Grove & Stone.' : 'Ordering is not open yet. Catalog availability is being verified.'}</Text></View></View>
   </ScrollView>;
 }
 

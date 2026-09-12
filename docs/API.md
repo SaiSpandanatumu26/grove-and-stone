@@ -297,3 +297,20 @@ MangoSeason. Live status requires `product_id`.
 `POST /stock/check` is public. Body: `{product_ids: [UUID, ...]}` with 1–100 IDs, deduplicated by the server. Returns `{items: [{id, is_active, season_status, variants: [{id, stock_qty}]}], checked_at, poll_after_seconds: 5}`. Unknown/inactive products are explicitly unavailable with no variant details. A single SQL statement reads product and pack availability together; responses are `Cache-Control: no-store`. No carts, prices, reservations or inventory are changed by this endpoint.
 
 The Expo client batches larger subscriptions, checks visible screens and cart products every five seconds after successful responses, stops when hidden/backgrounded, retries failures with bounded backoff, and cancels obsolete requests. Inventory is still locked and checked when adding quantities and placing orders.
+
+
+## Owner operations and postal lookup (13 September 2026)
+
+The same-origin owner website is served at `/admin`. Its API uses existing short-lived staff bearer sessions; admin and packer scopes are enforced on the server.
+
+- Public: `GET /delivery/places?q=town` returns at most 20 postal reference matches. `GET /shop-info` includes `ordering_enabled` and business/support details. Coverage checks suppress unapproved sample coverage in production; checkout returns `503 SHOP_NOT_OPEN` until enabled by the owner.
+- Activation: `POST /admin/auth/activate` accepts a one-use, expiring invitation token and a password of at least 12 characters. Only a privileged CLI/database operator can issue invitations. `GET /admin/auth/me` and `POST /admin/auth/logout` inspect/revoke the session.
+- Orders: `PUT /admin/orders/:id/shipment` records courier details; `POST /admin/orders/:id/collect-cod` records the exact amount collected for a delivered COD order.
+- Alerts: `GET /admin/alerts`, `POST /admin/alerts/:id/read`, and admin-only `POST /admin/alerts/:id/retry` expose durable delivery state. Jobs enqueue in the order transaction; HTTPS email sending requires a configured provider.
+- Setup: admin-only `GET/PATCH /admin/settings` contains non-secret details and readiness confirmations. Opening orders validates business details, approved coverage, catalog and policies.
+- Staff: admin-only `GET/POST /admin/staff`, `PATCH /admin/staff/:id`; changes to password, role or status revoke existing sessions. Self-demotion/deactivation is blocked.
+- Delivery: paginated `GET /admin/pincodes?search=...`; `POST /admin/pincodes/import` accepts `{csv: string}` (maximum 3,000 rows, atomic validation). `GET /admin/postal-directory?search=...` searches reference data without activating delivery.
+- Content: `GET/POST /admin/banners`, `PATCH /admin/banners/:id` manage multiple home offers alongside the existing CMS routes.
+- Operations: `GET /admin/refunds`, `POST /admin/refunds/process`, `GET /admin/audit` are admin-only.
+
+See [OWNER_GUIDE.md](../OWNER_GUIDE.md) for daily operation, email setup, command examples and remaining launch requirements. Live payments remain deferred at the owner's request.

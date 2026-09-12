@@ -33,6 +33,8 @@ def shipping(subtotal):
 
 
 def quote(cart, pincode):
+    from .operations import accepting_orders
+    if not accepting_orders(): fail(503, 'SHOP_NOT_OPEN', 'Ordering is temporarily unavailable while delivery coverage is being prepared. Please check back soon.')
     area = coverage(pincode)
     cart.pincode = pincode
     for key in sorted({line.product_id for line in cart.lines}): get_row(Product, key, lock=True)
@@ -57,10 +59,12 @@ def owned_order(number):
 
 
 def detail(row):
+    from .models import Shipment
     session = db.session.get(CheckoutSession, row.id)
     return {**json_value(row), 'lines': json_value(row.lines), 'payments': json_value(row.payments),
             'payment_backend': session.backend if session else None, 'payment_expires_at': json_value(session.expires_at) if session else None,
-            'refund': json_value(db.session.get(RefundRequest, row.id))}
+            'refund': json_value(db.session.get(RefundRequest, row.id)),
+            'shipment': json_value(db.session.scalar(select(Shipment).where(Shipment.order_id == row.id)))}
 
 
 def release(row):

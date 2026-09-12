@@ -45,7 +45,12 @@ def purchasable(variant, qty):
 def coverage(pincode):
     if not isinstance(pincode, str) or len(pincode) != 6 or not pincode.isascii() or not pincode.isdigit(): invalid("pincode", "Enter a valid 6-digit pincode.")
     row = db.session.get(PincodeService, pincode)
-    return json_value(row) if row else {"pincode": pincode, "serviceable": False, "mango_eligible": False, "cod_allowed": False}
+    result = json_value(row) if row else {"pincode": pincode, "serviceable": False, "mango_eligible": False, "cod_allowed": False}
+    from flask import current_app
+    from .operations import setting
+    if not current_app.testing and current_app.config['PAYMENT_BACKEND'] != 'demo' and not setting('coverage_reviewed', False):
+        result.update(serviceable=False, mango_eligible=False, cod_allowed=False)
+    return result
 
 
 def cart_json(cart):

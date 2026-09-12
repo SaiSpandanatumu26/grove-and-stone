@@ -1,6 +1,7 @@
-import { useEffect, useMemo, useRef, useState } from 'react';
-import { AccessibilityInfo, Animated, AppState, PanResponder, Platform, Pressable, StyleSheet, Text, View, ViewStyle } from 'react-native';
+import { useCallback, useEffect, useRef, useState } from 'react';
+import { AccessibilityInfo, Animated, AppState, Platform, Pressable, StyleSheet, Text, View } from 'react-native';
 import { useIsFocused } from '@react-navigation/native';
+import { SwipeArea } from './SwipeArea';
 import { FruitVideo } from './FruitVideo';
 import { Category } from './api';
 import { useShop } from './Store';
@@ -34,19 +35,15 @@ export function Hero({ choose, mangoSeason }: { choose: (category: Category | 'a
     animation.start(); return () => animation.stop();
   }, [banner?.id, reduced]);
   const change = (next: number) => { setIndex((next + banners.length) % banners.length); setManual(true); };
-  const swipe = useMemo(() => PanResponder.create({
-    onMoveShouldSetPanResponderCapture: (_, gesture) => banners.length > 1 && Math.abs(gesture.dx) > 18 && Math.abs(gesture.dx) > Math.abs(gesture.dy) * 1.5,
-    onPanResponderRelease: (_, gesture) => {
-      if (Math.abs(gesture.dx) < 50 || Math.abs(gesture.dx) < Math.abs(gesture.dy) * 1.5) return;
-      setIndex(value => (value + (gesture.dx < 0 ? 1 : -1) + banners.length) % banners.length); setManual(true);
-    },
-    onPanResponderTerminationRequest: () => true,
-  }), [banners.length]);
+  const swipe = useCallback((direction: number) => {
+    if (banners.length < 2) return;
+    setIndex(value => (value + direction + banners.length) % banners.length); setManual(true);
+  }, [banners.length]);
   if (!banner) return null;
   const mango = banner.cta_url.includes('mango'), dry = banner.cta_url.includes('dry_fruit');
   const follow = () => mango ? mangoSeason() : choose(dry ? 'dry_fruit' : banner.cta_url.includes('exotic') ? 'exotic' : 'all');
   const count = products.filter(product => product.category === 'mango').length;
-  return <><View {...swipe.panHandlers} style={[h.hero, Platform.OS === 'web' && ({ touchAction: 'pan-y' } as ViewStyle & { touchAction: 'pan-y' })]} accessibilityActions={[{ name: 'increment', label: 'Next offer' }, { name: 'decrement', label: 'Previous offer' }]} onAccessibilityAction={event => change(slide + (event.nativeEvent.actionName === 'increment' ? 1 : -1))}>
+  return <><SwipeArea onSwipe={swipe}><View style={h.hero} accessibilityActions={[{ name: 'increment', label: 'Next offer' }, { name: 'decrement', label: 'Previous offer' }]} onAccessibilityAction={event => swipe(event.nativeEvent.actionName === 'increment' ? 1 : -1)}>
     <FruitVideo playing={!reduced && focused && active} />
     <View style={[h.inner, !wide && { flexDirection: 'column', padding: 18, paddingTop: 90, gap: 0 }]}>
       <Animated.View style={[h.copy, { width: wide ? '52%' : '100%', opacity: reveal, padding: wide ? 28 : 20, gap: wide ? 20 : 16, backgroundColor: wide ? '#FFF8E5EB' : '#FFF8E5B8' }]}>
@@ -67,7 +64,7 @@ export function Hero({ choose, mangoSeason }: { choose: (category: Category | 'a
       <View style={[s.row, { gap: 3 }]}>{banners.map((item, i) => <Pressable key={item.id} accessibilityRole="button" accessibilityLabel={`Show slide ${i + 1}`} accessibilityState={{ selected: i === slide }} onPress={() => change(i)} style={h.dotTarget}><View style={[h.dot, i === slide && h.dotActive]} /></Pressable>)}</View>
 
     </View>
-  </View>
+  </View></SwipeArea>
     {wide && <View style={h.collectionBar}><View style={[h.collections, !wide && { flexDirection: 'column', padding: 12, gap: 0 }]}>{collections.map(item => <Pressable key={item.key} accessibilityRole="button" accessibilityLabel={item.note} onPress={() => item.key === 'mango' ? mangoSeason() : choose(item.key)} style={[h.collection, !wide && { width: '100%', paddingVertical: 12 }]}><View style={h.collectionIcon}><Icon name={item.icon} size={24} /></View><View style={{ flex: 1 }}><Text style={h.collectionTitle}>{item.title}</Text><Text style={h.collectionNote}>{item.note}</Text></View><Icon name="arrow-forward-outline" size={19} /></Pressable>)}</View></View>}
   </>;
 }

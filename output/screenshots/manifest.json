@@ -1,0 +1,68 @@
+[
+  {
+    "file": "screenshots/01-home-hero.jpeg",
+    "title": "Home: animated fruit hero",
+    "original_filename": "WhatsApp Image 2026-09-13 at 12.35.57 PM.jpeg",
+    "sha256": "6b0f3f1d5bfeff61d8d961beb9cbcec5892e0e28fb24253ee4ee1fe7715d7315"
+  },
+  {
+    "file": "screenshots/02-home-categories.jpeg",
+    "title": "Home: delivery check and categories",
+    "original_filename": "WhatsApp Image 2026-09-13 at 12.35.58 PM.jpeg",
+    "sha256": "ce474a11e838befc04f0dd56882340bcb6a49456be4b85599031ac5381e4a34b"
+  },
+  {
+    "file": "screenshots/03-home-catalog.jpeg",
+    "title": "Home: product catalog and stock updates",
+    "original_filename": "WhatsApp Image 2026-09-13 at 12.35.58 PM (1).jpeg",
+    "sha256": "6f20433d1eda9ebe7ca776a90afb0a3ff2755ade86b6a13cbe6ecbb4ca62bbdd"
+  },
+  {
+    "file": "screenshots/04-how-it-works.jpeg",
+    "title": "Home: how shopping works",
+    "original_filename": "WhatsApp Image 2026-09-13 at 12.35.58 PM (2).jpeg",
+    "sha256": "65f364163c17fff639f47fdc326208fa7be87c283e6089a70c76a705b296398f"
+  },
+  {
+    "file": "screenshots/05-home-footer.jpeg",
+    "title": "Home: footer and information links",
+    "original_filename": "WhatsApp Image 2026-09-13 at 12.35.58 PM (3).jpeg",
+    "sha256": "2fd4b6880f5f708ccccf340fbbbb45378d503f99000db8eea431116380c89ecf"
+  },
+  {
+    "file": "screenshots/06-mango-season.jpeg",
+    "title": "Mangoes: seasonal collection",
+    "original_filename": "WhatsApp Image 2026-09-13 at 12.35.59 PM.jpeg",
+    "sha256": "423e6008dbf609a15fb0eaf7ca50a1f62e48106e6513583e2e4cb64459e2d103"
+  },
+  {
+    "file": "screenshots/07-mango-waitlist.jpeg",
+    "title": "Mangoes: upcoming harvest and notification signup",
+    "original_filename": "WhatsApp Image 2026-09-13 at 12.35.59 PM (1).jpeg",
+    "sha256": "291ef553bc954457b77aaff17559cdc9a97cf246892f0e2381a125c50040266a"
+  },
+  {
+    "file": "screenshots/08-cart-items.jpeg",
+    "title": "Cart: product, quantity and price",
+    "original_filename": "WhatsApp Image 2026-09-13 at 12.35.59 PM (2).jpeg",
+    "sha256": "b7c58ddc5ae4054adf810aa0bc7203916bf587fe54664f542e2c2a855dfed2d3"
+  },
+  {
+    "file": "screenshots/09-cart-summary.jpeg",
+    "title": "Cart: totals, GST and checkout entry",
+    "original_filename": "WhatsApp Image 2026-09-13 at 12.35.59 PM (3).jpeg",
+    "sha256": "9786387345477866a5cbf8c8cade2a2a9ce180d80b9b8fc94c56cd18331595dd"
+  },
+  {
+    "file": "screenshots/10-account-overview.jpeg",
+    "title": "Account: wishlist, orders and reorder introduction",
+    "original_filename": "WhatsApp Image 2026-09-13 at 12.36.00 PM.jpeg",
+    "sha256": "3d82f70377c00b756d9f7744cafb8d24f83c3529d97acf53a933e004e2b7238c"
+  },
+  {
+    "file": "screenshots/11-account-login.jpeg",
+    "title": "Account: login and create-account entry",
+    "original_filename": "WhatsApp Image 2026-09-13 at 12.36.00 PM (1).jpeg",
+    "sha256": "efc7c82374af88f2a7f493d00884512e4236b47c79136da62cc70e1247b5ed30"
+  }
+]

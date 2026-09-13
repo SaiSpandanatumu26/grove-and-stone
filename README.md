@@ -14,6 +14,10 @@ India-focused fruit commerce: exotic fruits, dry fruits, and seasonal mangoes. F
 
 The complete source and artwork package is **Grove-and-Stone.zip**. Extract it and start Flask below. For the browser preview, open a second terminal in `mobile/`, run `npm.cmd ci`, then `npm.cmd run web`, and visit http://localhost:8081/. See `mobile/README.md` for Android commands. Checkout, delivery selection, demo payments, tracking, cancellation and support pages are now available. See `CHECKOUT_REVIEW.md` and `DEPLOYMENT.md`.
 
+## Project output
+
+Browse [the output gallery](output/README.md) for **11 iPhone screenshots** covering the homepage, catalog, mango season, cart and account screens.
+
 ## Homepage UI updates
 
 The homepage uses the supplied Foodwagon sample as its visual reference, with Grove & Stone branding, warm yellow/orange colours, rounded cards and clear shopping sections. The catalog includes **exotic fruits, dry fruits and seasonal mangoes**.

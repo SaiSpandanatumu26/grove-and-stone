@@ -14,6 +14,30 @@ India-focused fruit commerce: exotic fruits, dry fruits, and seasonal mangoes. F
 
 The complete source and artwork package is **Grove-and-Stone.zip**. Extract it and start Flask below. For the browser preview, open a second terminal in `mobile/`, run `npm.cmd ci`, then `npm.cmd run web`, and visit http://localhost:8081/. See `mobile/README.md` for Android commands. Checkout, delivery selection, demo payments, tracking, cancellation and support pages are now available. See `CHECKOUT_REVIEW.md` and `DEPLOYMENT.md`.
 
+## Homepage UI updates
+
+The homepage uses the supplied Foodwagon sample as its visual reference, with Grove & Stone branding, warm yellow/orange colours, rounded cards and clear shopping sections. The catalog includes **exotic fruits, dry fruits and seasonal mangoes**.
+
+![Fruit artwork used in the animated homepage hero](mobile/assets/hero/fruit-loop-poster.jpg)
+
+*This is the hero's fallback artwork. The live website plays the fruit animation behind the offer text.*
+
+| Part of the homepage | What changed and how it works |
+| --- | --- |
+| Hero — the large opening banner | A muted, looping fruit video replaces the plain background. Offer headings and buttons sit on a translucent panel so they remain readable. Published, currently active offers come from the backend. |
+| Offer navigation | Swipe left/right on a phone, or drag horizontally on the website, to change offers. Small dots also select an offer. The play/pause button, numeric slide counter and previous/next slide arrows were removed. |
+| Automatic slides | Offers advance every 6.5 seconds until you manually choose or swipe to one. Automatic movement stops when the app is inactive or the device requests reduced motion. |
+| Mobile hero | The layout uses a compact text panel and a crop that keeps fruit visible. The extra desktop collection strip and floating mango card are hidden on small screens. Native video controls and the playback timeline are hidden. |
+| Video fallback | If a browser blocks autoplay or the video is loading, the fruit poster gently moves instead. A touch can retry video playback. Reduced-motion settings show still artwork; animation depends on device/browser settings. |
+| Categories and products | Below the hero are the pincode check, category shortcuts, mango-season information and the “This week” catalog. Category buttons filter the fruits; product images open their details. |
+| Even product cards | Product names and information reserve consistent space, and actions sit at the bottom of each card. “Add to cart”, “Notify me” and unavailable buttons align across each row. The grid adjusts from one to four columns, including two on standard phone widths. |
+| Stock and favourites | Cards show current availability, low-stock messages and wishlist hearts. Stock refreshes while the product grid is active. Eligible seasonal products offer “Notify me” when unavailable. |
+| Store readiness | A clear notice appears while delivery setup is awaiting approval. Customers can browse; checkout stays closed until the owner enables orders. |
+
+**Page flow:** Hero → Check delivery location → Categories → Mango-season highlight → Product catalog → How it works → Footer and support/policy links.
+
+For developers, [Home.tsx](mobile/src/Home.tsx) contains the page sections and product grid, [Hero.tsx](mobile/src/Hero.tsx) manages offers and slide timing, [FruitVideo.tsx](mobile/src/FruitVideo.tsx) handles video and fallback motion, and [SwipeArea.web.tsx](mobile/src/SwipeArea.web.tsx) / [SwipeArea.tsx](mobile/src/SwipeArea.tsx) handle browser/native gestures. Edit **Home offers** in the [owner dashboard](https://grove-and-stone.onrender.com/admin) to manage banner text, links and publishing dates; see the [owner guide](OWNER_GUIDE.md) for access and setup.
+
 ## Local setup (PowerShell)
 
 Run from this `grove-and-stone` folder. Verified on Python 3.14.7 and PostgreSQL 18.4.

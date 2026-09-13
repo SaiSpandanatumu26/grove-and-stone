@@ -4,6 +4,10 @@ User-supplied screenshots of the website in an iPhone browser, added on 13 Septe
 
 [Open the live website](https://grove-and-stone-web.onrender.com/) · [Back to project README](../README.md)
 
+## App walkthrough video
+
+[Watch the captioned app walkthrough](walkthrough/README.md), covering all four hero slides, customer screens and the local owner dashboard. The chapter list explains the capture scope and flows not demonstrated.
+
 ## Screenshots
 
 Click a preview to open the original-size image. Filenames follow the shopping flow: Home → Mangoes → Cart → Account.

@@ -16,7 +16,7 @@ The complete source and artwork package is **Grove-and-Stone.zip**. Extract it a
 
 ## Project output
 
-Browse [the output gallery](output/README.md) for **11 iPhone screenshots** covering the homepage, catalog, mango season, cart and account screens.
+Browse [the output gallery](output/README.md) for **11 iPhone screenshots** covering the homepage, catalog, mango season, cart and account screens. A [captioned walkthrough video](output/walkthrough/README.md) covers the hero slides, public shopping screens and local owner dashboard; its chapter guide identifies flows not demonstrated.
 
 ## Homepage UI updates
 

@@ -1,0 +1,229 @@
+{
+  "duration_seconds": 292,
+  "chapters": [
+    {
+      "start_seconds": 0,
+      "title": "Introduction and recording scope"
+    },
+    {
+      "start_seconds": 9,
+      "title": "Home - hero slide 1"
+    },
+    {
+      "start_seconds": 15,
+      "title": "Home - hero slide 2"
+    },
+    {
+      "start_seconds": 21,
+      "title": "Home - hero slide 3"
+    },
+    {
+      "start_seconds": 27,
+      "title": "Home - hero slide 4"
+    },
+    {
+      "start_seconds": 33,
+      "title": "Home - delivery location and category shortcuts"
+    },
+    {
+      "start_seconds": 38,
+      "title": "Catalog - exotic fruit cards"
+    },
+    {
+      "start_seconds": 43,
+      "title": "Catalog - dry fruit collection"
+    },
+    {
+      "start_seconds": 48,
+      "title": "Catalog - mango collection and availability"
+    },
+    {
+      "start_seconds": 53,
+      "title": "Product details - Alphonso mangoes"
+    },
+    {
+      "start_seconds": 58,
+      "title": "Product - pack price, availability and handling"
+    },
+    {
+      "start_seconds": 63,
+      "title": "Product - switching to a larger pack"
+    },
+    {
+      "start_seconds": 68,
+      "title": "Cart - items, quantity controls and stock"
+    },
+    {
+      "start_seconds": 73,
+      "title": "Cart - GST, totals and checkout availability"
+    },
+    {
+      "start_seconds": 78,
+      "title": "Delivery - pincode and city search"
+    },
+    {
+      "start_seconds": 83,
+      "title": "Delivery - Vijayawada pincode matches"
+    },
+    {
+      "start_seconds": 88,
+      "title": "Account - wishlist, order history and reorder overview"
+    },
+    {
+      "start_seconds": 93,
+      "title": "Account - email and password login"
+    },
+    {
+      "start_seconds": 98,
+      "title": "Account - registration form (not submitted)"
+    },
+    {
+      "start_seconds": 103,
+      "title": "Mango season - live and upcoming harvests"
+    },
+    {
+      "start_seconds": 108,
+      "title": "Mango waitlist - notification signup (not submitted)"
+    },
+    {
+      "start_seconds": 113,
+      "title": "Search - finding a fruit by name"
+    },
+    {
+      "start_seconds": 118,
+      "title": "Home - footer and support links"
+    },
+    {
+      "start_seconds": 123,
+      "title": "Home - how shopping works"
+    },
+    {
+      "start_seconds": 128,
+      "title": "Information - About Grove and Stone"
+    },
+    {
+      "start_seconds": 133,
+      "title": "Information - Shipping"
+    },
+    {
+      "start_seconds": 138,
+      "title": "Information - Returns"
+    },
+    {
+      "start_seconds": 143,
+      "title": "Information - Contact"
+    },
+    {
+      "start_seconds": 148,
+      "title": "Information - FAQ"
+    },
+    {
+      "start_seconds": 153,
+      "title": "FAQ - When are mangoes available?"
+    },
+    {
+      "start_seconds": 158,
+      "title": "FAQ - Where do you deliver?"
+    },
+    {
+      "start_seconds": 163,
+      "title": "FAQ - Can I pay cash on delivery?"
+    },
+    {
+      "start_seconds": 168,
+      "title": "FAQ - Will my fruit be ripe?"
+    },
+    {
+      "start_seconds": 173,
+      "title": "FAQ - How should I store my order?"
+    },
+    {
+      "start_seconds": 178,
+      "title": "FAQ - Is GST added at checkout?"
+    },
+    {
+      "start_seconds": 183,
+      "title": "FAQ - Can I cancel or reorder?"
+    },
+    {
+      "start_seconds": 188,
+      "title": "Owner demo - sign-in"
+    },
+    {
+      "start_seconds": 193,
+      "title": "Owner demo - daily overview"
+    },
+    {
+      "start_seconds": 198,
+      "title": "Owner demo - Orders"
+    },
+    {
+      "start_seconds": 203,
+      "title": "Owner demo - Inventory"
+    },
+    {
+      "start_seconds": 208,
+      "title": "Owner demo - Order alerts"
+    },
+    {
+      "start_seconds": 213,
+      "title": "Owner demo - Products"
+    },
+    {
+      "start_seconds": 218,
+      "title": "Owner demo - Delivery areas"
+    },
+    {
+      "start_seconds": 223,
+      "title": "Owner demo - Postal directory"
+    },
+    {
+      "start_seconds": 228,
+      "title": "Owner demo - Home offers"
+    },
+    {
+      "start_seconds": 233,
+      "title": "Owner demo - Mango seasons"
+    },
+    {
+      "start_seconds": 238,
+      "title": "Owner demo - Refunds"
+    },
+    {
+      "start_seconds": 243,
+      "title": "Owner demo - Business setup"
+    },
+    {
+      "start_seconds": 248,
+      "title": "Owner demo - Team"
+    },
+    {
+      "start_seconds": 253,
+      "title": "Owner demo - Activity log"
+    },
+    {
+      "start_seconds": 258,
+      "title": "Owner demo - synthetic order and packing details"
+    },
+    {
+      "start_seconds": 263,
+      "title": "Owner demo - product editor"
+    },
+    {
+      "start_seconds": 268,
+      "title": "Owner demo - packs, prices, GST and stock"
+    },
+    {
+      "start_seconds": 273,
+      "title": "Owner demo - pincode configuration"
+    },
+    {
+      "start_seconds": 278,
+      "title": "Owner demo - importing approved coverage"
+    },
+    {
+      "start_seconds": 283,
+      "title": "Remaining flows and launch requirements"
+    }
+  ]
+}

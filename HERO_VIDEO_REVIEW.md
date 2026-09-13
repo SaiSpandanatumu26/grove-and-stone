@@ -23,7 +23,7 @@ Website: https://grove-and-stone-web.onrender.com
 
 API health: https://grove-and-stone.onrender.com/api/v1/health
 
-The private repository excludes `.env`, `.env.*` and `node_modules/`; only placeholder `.env.example` files are tracked. Dependencies still install during setup/build. The Android source is exportable, but a signed APK and physical-device playback remain separate checks.
+The repository excludes `.env`, `.env.*` and `node_modules/`; only placeholder `.env.example` files are tracked. Dependencies still install during setup/build. The Android source is exportable, but a signed APK and physical-device playback remain separate checks.
 
 ## Phone layout correction
 

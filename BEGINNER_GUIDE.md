@@ -1,6 +1,6 @@
 # Grove & Stone — a beginner's guide
 
-**Latest hosting update (11 September 2026):** Open [the live website](https://grove-and-stone-web.onrender.com). Render hosts the website and Flask API; Supabase stores the database. The repository is private. A signed Android APK still requires an Expo EAS build. Read [the free deployment guide](FREE_DEPLOYMENT.md).
+**Latest hosting update (11 September 2026):** Open [the live website](https://grove-and-stone-web.onrender.com). Render hosts the website and Flask API; Supabase stores the database. The repository is public. A signed Android APK still requires an Expo EAS build. Read [the free deployment guide](FREE_DEPLOYMENT.md).
 
 This guide assumes you have never built an app or website. It explains the shop, its screens and controls, the purchase flow, the technologies, and the code files.
 
@@ -338,8 +338,7 @@ Grove-and-Stone/
 | `mobile/package.json` / `package-lock.json` | App libraries/commands and exact resolved library versions. |
 | `mobile/app.json` / `eas.json` | App identity/platform settings and cloud build profiles. |
 | `backend/__init__.py` | Creates/configures Flask and registers routes/commands. |
-| `backend/web.py` | Optional hosting of the exported website beside the Flask API, used by Azure. |
-| `infra/azure/` | Azure resource recipe, secure parameter inputs, website packaging, and startup script. |
+| `backend/web.py` | Optional hosting of the exported website beside the Flask API. |
 | `backend/extensions.py` | Shared SQLAlchemy database instance used by the app and models. |
 | `backend/requirements*.txt` | Backend libraries: core runtime, development/tests, and optional Firebase support. |
 | `backend/models.py` | Defines the 22 database tables and relationships. |
@@ -514,7 +513,7 @@ flowchart LR
 | `mobile/eas.json` | Internal preview APK and production AAB build profiles. |
 | `FREE_DEPLOYMENT.md` | Current commands, dashboard steps and deployment status. |
 
-Your deployment approval is recorded. GitHub and Render are connected, and the repository is private. Supabase has all 22 application tables with row-level security enabled; its automatic Data API is disabled because the app uses Flask for access. The private connection string and signing secret are saved in Render environment settings. Keep them out of chat and GitHub.
+Your deployment approval is recorded. GitHub and Render are connected, and the repository is public. Supabase has all 22 application tables with row-level security enabled; its automatic Data API is disabled because the app uses Flask for access. The private connection string and signing secret are saved in Render environment settings. Keep them out of chat and GitHub.
 
 The current Render recipe includes **both the API and website** as separate services. Once created, their actual HTTPS addresses must be connected in the settings and tested. The Android APK will use that same API. Expo's command-line build tool still needs account sign-in; signing into its website alone does not sign that tool in.
 

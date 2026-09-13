@@ -1,6 +1,6 @@
 # Grove & Stone
 
-**Live website: [grove-and-stone-web.onrender.com](https://grove-and-stone-web.onrender.com).** The Flask API runs on Render Free and uses Supabase Free PostgreSQL. The source repository is private. Read [FREE_DEPLOYMENT.md](FREE_DEPLOYMENT.md) for operations and limitations. The Android source exports successfully; a signed APK remains to be built with Expo EAS.
+**Live website: [grove-and-stone-web.onrender.com](https://grove-and-stone-web.onrender.com).** The Flask API runs on Render Free and uses Supabase Free PostgreSQL. The source repository is public. Read [FREE_DEPLOYMENT.md](FREE_DEPLOYMENT.md) for operations and limitations. The Android source exports successfully; a signed APK remains to be built with Expo EAS.
 
 Latest validation: **51 backend tests passed**, followed by **37 focused regression tests** after final backend changes. Expo web and Android exports and TypeScript checks passed. The new owner dashboard covers orders, stock, delivery areas, alerts, offers and team access; see [OWNER_GUIDE.md](OWNER_GUIDE.md) for setup and remaining launch requirements. Earlier test counts below are historical.
 

@@ -67,7 +67,7 @@ No database URL, password, secret key, customer record, or database dump goes in
 
 ### 3. Connect the source and deploy the API
 
-Upload the contents of the extracted `Grove-and-Stone/` source folder to your own private GitHub repository. `render.yaml` must be at the repository root. Retain `.gitignore`; exclude local environments, databases, dependencies, caches, and `.azure-build/`.
+Upload the contents of the extracted `Grove-and-Stone/` source folder to your GitHub repository. The Grove & Stone repository is public at the owner's request. `render.yaml` must be at the repository root. Retain `.gitignore`; exclude local environments, databases, dependencies, caches, and `.azure-build/`.
 
 The current `render.yaml` defines two services and **no Render database**. It accepts Supabase's connection string rather than creating the expiring database. For a first deployment, create services individually in the following order so their generated URLs can be entered without guessing:
 
@@ -137,4 +137,4 @@ Replace the example URL. If the variable exists, update it in Expo instead of cr
 
 The previous application verification passed 41 backend tests, TypeScript checking and Android/web export checks. This change updates hosting configuration and documentation; remote Render/Supabase connectivity, hosted website behavior, cloud catalog population and a signed physical-device build still need verification. See [BEGINNER_GUIDE.md](BEGINNER_GUIDE.md) for the shopping flow and [CATALOG_REVIEW.md](CATALOG_REVIEW.md) for feature tests.
 
-The Azure and old Render guides are retained as historical alternatives. Do not run their paid-resource creation or expiring-database steps for this deployment.
+The Azure deployment guide and infrastructure files have been removed. Use this guide for the current Render + Supabase deployment; the original Render database instructions are historical and should not be used for this setup.

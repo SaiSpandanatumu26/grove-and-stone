@@ -69,6 +69,5 @@ Captured 13 September 2026. Format: H.264 MP4, 1280 × 960, 24 fps output; sourc
 | 04:28 | Owner demo - packs, prices, GST and stock |
 | 04:33 | Owner demo - pincode configuration |
 | 04:38 | Owner demo - importing approved coverage |
-| 04:43 | Remaining flows and launch requirements |
 
-Duration: **04:52**. [Back to output gallery](../README.md).
+Duration: **04:43**. [Back to output gallery](../README.md).

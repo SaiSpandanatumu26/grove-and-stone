@@ -1,5 +1,5 @@
 {
-  "duration_seconds": 292,
+  "duration_seconds": 283,
   "chapters": [
     {
       "start_seconds": 0,
@@ -220,10 +220,6 @@
     {
       "start_seconds": 278,
       "title": "Owner demo - importing approved coverage"
-    },
-    {
-      "start_seconds": 283,
-      "title": "Remaining flows and launch requirements"
     }
   ]
 }

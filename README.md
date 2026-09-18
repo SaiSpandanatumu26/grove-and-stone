@@ -1,8 +1,8 @@
 # Grove & Stone
 
-**Live website: [grove-and-stone-web.onrender.com](https://grove-and-stone-web.onrender.com).** The Flask API runs on Render Free and uses Supabase Free PostgreSQL. The source repository is public. Read [FREE_DEPLOYMENT.md](FREE_DEPLOYMENT.md) for operations and limitations. The Android source exports successfully; a signed APK remains to be built with Expo EAS.
+**Live website: [grove-and-stone-web.onrender.com](https://grove-and-stone-web.onrender.com).** The Flask REST API runs on Render Free and uses Supabase Free PostgreSQL. The source repository is public. Read [FREE_DEPLOYMENT.md](FREE_DEPLOYMENT.md) for operations and limitations. **[Android APK 1.0.0 is available](output/android/README.md)**; device testing and Google Play publication remain.
 
-Latest validation: **51 backend tests passed**, followed by **37 focused regression tests** after final backend changes. Expo web and Android exports and TypeScript checks passed. The new owner dashboard covers orders, stock, delivery areas, alerts, offers and team access; see [OWNER_GUIDE.md](OWNER_GUIDE.md) for setup and remaining launch requirements. Earlier test counts below are historical.
+Latest validation (18 September 2026): **52 backend tests passed**, along with TypeScript and catalog-cache checks, web/Android exports and a signed Android APK build. Local browser checks covered optimized images, product details and cart totals. The owner dashboard covers orders, stock, delivery areas, alerts, offers and team access; see [OWNER_GUIDE.md](OWNER_GUIDE.md) for setup and remaining launch requirements. Earlier test counts below are historical.
 
 **New to this project? Start with [the beginner guide](BEGINNER_GUIDE.md).** It explains every main website screen/control, the complete shopping flow, each technology and code file, the original 22 database models (six operational additions are explained in the owner guide), API requests, local setup, troubleshooting, and deployment. No programming background is assumed. Flow diagrams show how the parts connect.
 

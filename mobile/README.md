@@ -29,4 +29,4 @@ npm.cmd start
 
 Optimized catalog images are bundled with the Android app and exported as static assets for the website. Tiny Base64 previews render while needed; remote Android images use disk/memory caching. See [Android and performance](../ANDROID_AND_PERFORMANCE.md) for APK builds, architecture and measurements. Browser review does not verify native Android behavior.
 
-See the project-root STOREFRONT_REVIEW.md for test accounts, validation and remaining work. Checkout, delivery, local demo payments, tracking, cancellation and support pages are implemented; see CHECKOUT_REVIEW.md and DEPLOYMENT.md in the project root. Live provider and physical-device testing remain. This package contains source, not a signed APK.
+See the project-root STOREFRONT_REVIEW.md for test accounts, validation and remaining work. Checkout, delivery, local demo payments, tracking, cancellation and support pages are implemented; see CHECKOUT_REVIEW.md and DEPLOYMENT.md in the project root. Live provider and physical-device testing remain. [Download the signed Android APK separately](../output/android/README.md).

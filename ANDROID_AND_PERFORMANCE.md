@@ -27,6 +27,8 @@ These are file-size and behavior improvements, not a measured guarantee of a par
 
 ## Android build and installation
 
+**[APK 1.0.0 download and installation guide](output/android/README.md)** — the signed EAS build succeeded and its downloaded archive passed integrity checks. It is not yet published on Google Play.
+
 The app is owned by the Expo account `saispandanatumu`, project `grove-and-stone`. Its Android identifier is `com.groveandstone.app`; minimum Android version is 8.0 (API 26). EAS generates and holds the signing keystore. Keep access to that Expo account for future updates.
 
 From the `mobile` directory:

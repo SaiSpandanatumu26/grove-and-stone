@@ -33,6 +33,7 @@ export function CheckoutScreen() {
     if (result.payment_backend === 'disabled' && result.cart.cod_allowed) setMethod('cod');
   });
   const place = () => shop.perform(async () => {
+    if (!shop.ready || shop.failed || shop.cached || shop.stockStatus !== 'live') throw new Error('Reconnect and refresh availability before placing your order.');
     if (!quote) throw new Error('Check delivery and review your total first.');
     const requestId = await AsyncStorage.getItem(key) || Crypto.randomUUID();
     await AsyncStorage.setItem(key, requestId);

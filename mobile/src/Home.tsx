@@ -76,7 +76,7 @@ export function HomeScreen() {
         <View style={s.between}><View style={{ gap: 8 }}><Eyebrow>FILL YOUR BASKET WITH GOODNESS</Eyebrow><Heading>This week</Heading></View><IconButton label="Search products" icon="search-outline" onPress={() => navigation.navigate('Search')} /></View>
         <View style={s.wrap}>{[{ key: 'all', label: 'All products' }, ...categories].map(item => <Button key={item.key} label={item.label} quiet={category !== item.key} onPress={() => setCategory(item.key as Category | 'all')} />)}</View>
         <ProductGrid products={shop.products.filter(product => category === 'all' || product.category === category)} />
-        {!shop.products.some(product => category === 'all' || product.category === category) && <Empty icon="leaf-outline" title="More goodness on its way" body="There are no products in this category right now." />}
+        {shop.ready && !shop.failed && !shop.products.some(product => category === 'all' || product.category === category) && <Empty icon="leaf-outline" title="More goodness on its way" body="There are no products in this category right now." />}
       </View>
     </View>
     <View style={h.how}><View style={[s.container, { padding: 24 }]}><Text accessibilityRole="header" style={[s.heading, { textAlign: 'center', color: colors.orange }]}>How does it work?</Text>

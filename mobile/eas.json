@@ -4,10 +4,12 @@
     "preview": {
       "distribution": "internal",
       "environment": "preview",
+      "env": { "EXPO_PUBLIC_API_URL": "https://grove-and-stone.onrender.com/api/v1" },
       "android": { "buildType": "apk", "resourceClass": "medium" }
     },
     "production": {
       "environment": "production",
+      "env": { "EXPO_PUBLIC_API_URL": "https://grove-and-stone.onrender.com/api/v1" },
       "autoIncrement": true,
       "android": { "buildType": "app-bundle", "resourceClass": "medium" }
     }

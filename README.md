@@ -10,6 +10,8 @@ Open [the local website](http://localhost:8081/) while its servers are running. 
 
 India-focused fruit commerce: exotic fruits, dry fruits, and seasonal mangoes. Flask/PostgreSQL provide the shared backend; the Expo Android app uses JSON REST APIs.
 
+**Android and loading update:** Catalog images are now 97.7% smaller, with Base64 previews, lazy browser loading and bundled Android artwork. Startup shows the shop while fresh data loads. See [Android setup, architecture and performance](ANDROID_AND_PERFORMANCE.md) for the APK build process, validation and hosting limits.
+
 **The storefront is ready for local review.** Open http://localhost:8081/ while the local servers are running. The Foodwagon-inspired Expo app now connects catalog, pack selection, cart, signup/login, profile, wishlist and reorder to Flask. See `STOREFRONT_REVIEW.md` for the demo account, sample pincodes and validation. The documents govern business rules; the latest wishlist, reorder and carousel requests are explicit extensions.
 
 The complete source and artwork package is **Grove-and-Stone.zip**. Extract it and start Flask below. For the browser preview, open a second terminal in `mobile/`, run `npm.cmd ci`, then `npm.cmd run web`, and visit http://localhost:8081/. See `mobile/README.md` for Android commands. Checkout, delivery selection, demo payments, tracking, cancellation and support pages are now available. See `CHECKOUT_REVIEW.md` and `DEPLOYMENT.md`.

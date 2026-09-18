@@ -1,0 +1,67 @@
+[
+  {
+    "image": "almonds.png",
+    "original_bytes": 2108451,
+    "optimized_bytes": 47824
+  },
+  {
+    "image": "avocado.png",
+    "original_bytes": 1980027,
+    "optimized_bytes": 43062
+  },
+  {
+    "image": "blueberries.png",
+    "original_bytes": 1867204,
+    "optimized_bytes": 38560
+  },
+  {
+    "image": "cashews.png",
+    "original_bytes": 1782072,
+    "optimized_bytes": 27516
+  },
+  {
+    "image": "dragonfruit.png",
+    "original_bytes": 1904515,
+    "optimized_bytes": 44002
+  },
+  {
+    "image": "hero.png",
+    "original_bytes": 2079752,
+    "optimized_bytes": 60424
+  },
+  {
+    "image": "kiwi.png",
+    "original_bytes": 1987049,
+    "optimized_bytes": 56332
+  },
+  {
+    "image": "lychee.png",
+    "original_bytes": 1906410,
+    "optimized_bytes": 51774
+  },
+  {
+    "image": "mango.png",
+    "original_bytes": 1578070,
+    "optimized_bytes": 22506
+  },
+  {
+    "image": "passionfruit.png",
+    "original_bytes": 2011767,
+    "optimized_bytes": 52938
+  },
+  {
+    "image": "pears.png",
+    "original_bytes": 1769361,
+    "optimized_bytes": 29982
+  },
+  {
+    "image": "pistachios.png",
+    "original_bytes": 1825488,
+    "optimized_bytes": 36586
+  },
+  {
+    "image": "strawberries.png",
+    "original_bytes": 1996756,
+    "optimized_bytes": 58010
+  }
+]

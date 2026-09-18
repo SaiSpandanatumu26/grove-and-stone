@@ -3,6 +3,7 @@
     "name": "Grove & Stone",
     "slug": "grove-and-stone",
     "version": "1.0.0",
+    "scheme": "groveandstone",
     "orientation": "portrait",
     "userInterfaceStyle": "light",
     "platforms": [
@@ -20,10 +21,28 @@
       ],
       "expo-font",
       "expo-secure-store",
-      "expo-video"
+      [
+        "expo-splash-screen",
+        {
+          "backgroundColor": "#FFFAF2",
+          "image": "./assets/app-icon.png",
+          "imageWidth": 180,
+          "resizeMode": "contain"
+        }
+      ],
+      "expo-video",
+      "expo-image",
+      "expo-asset"
     ],
     "android": {
       "package": "com.groveandstone.app"
-    }
+    },
+    "extra": {
+      "eas": {
+        "projectId": "c1d91bd1-68bc-4fb3-8ac4-c02682fc537d"
+      }
+    },
+    "owner": "saispandanatumu",
+    "icon": "./assets/app-icon.png"
   }
 }

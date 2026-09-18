@@ -22,7 +22,7 @@ def banners():
 
 @api.get("/media/<path:filename>")
 def media(filename):
-    return send_from_directory(Path(__file__).resolve().parents[1] / "mobile/assets/catalog", filename)
+    return send_from_directory(Path(__file__).resolve().parents[1] / "mobile/assets/catalog", filename, max_age=86400, conditional=True)
 
 
 @api.get("/me/wishlist")

@@ -8,7 +8,7 @@ npm.cmd run typecheck
 npm.cmd start
 # Browser preview for local review:
 npm.cmd run web
-# With an Android device/emulator available:
+# Local native build (requires Android SDK and Java):
 npm.cmd run android
 # Generate the Android JavaScript bundle locally:
 npm.cmd run export:android
@@ -27,6 +27,6 @@ $env:EXPO_PUBLIC_API_URL = 'http://YOUR_COMPUTER_LAN_IP:5000/api/v1'
 npm.cmd start
 ```
 
-Flask serves the bundled fruit images from `assets/catalog`; keep this directory with the project. Web support enables local review; Android remains the mobile target. Browser review does not verify native Android behavior.
+Optimized catalog images are bundled with the Android app and exported as static assets for the website. Tiny Base64 previews render while needed; remote Android images use disk/memory caching. See [Android and performance](../ANDROID_AND_PERFORMANCE.md) for APK builds, architecture and measurements. Browser review does not verify native Android behavior.
 
 See the project-root STOREFRONT_REVIEW.md for test accounts, validation and remaining work. Checkout, delivery, local demo payments, tracking, cancellation and support pages are implemented; see CHECKOUT_REVIEW.md and DEPLOYMENT.md in the project root. Live provider and physical-device testing remain. This package contains source, not a signed APK.

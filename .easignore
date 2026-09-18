@@ -1,0 +1,20 @@
+# EAS archives the repository root. Only the Android client is needed.
+/*
+!/mobile/
+node_modules/
+.git/
+.expo/
+dist/
+dist-review/
+android/
+ios/
+.env
+.env.*
+!.env.example
+*.jks
+*.keystore
+*.pem
+*.key
+*.log
+mobile/assets/catalog/*.png
+mobile/assets/hero/fruit-cutouts.png

@@ -13,7 +13,7 @@ export type Banner = { id: string; title: string; subtitle: string; image: strin
 export type Season = { id: string; variety_name: string; harvest_start: string; harvest_end: string; status: string; waitlist_enabled: boolean; product: Product | null };
 export type Order = { id: string; order_number: string; created_at: string; grand_total: string; subtotal: string; shipping: string; gst: string; status: string; payment_status: string; payment_method: string; payment_backend?: string; payment_expires_at?: string; delivery_date: string; address: Record<string, string>; customer_notes?: string; shipment?: { carrier: string; tracking_number: string; tracking_url?: string }; refund?: { status: string; amount: string }; lines?: { product_name: string; variant_label: string; qty: number; line_total: string }[] };
 type Tokens = { access_token: string; refresh_token: string };
-export const API_URL = (process.env.EXPO_PUBLIC_API_URL || (Platform.OS === 'web' ? `http://${globalThis.location.hostname}:5000/api/v1` : 'http://10.0.2.2:5000/api/v1')).replace(/\/$/, '');
+export const API_URL = (process.env.EXPO_PUBLIC_API_URL || (__DEV__ ? (Platform.OS === 'web' ? `http://${globalThis.location.hostname}:5000/api/v1` : 'http://10.0.2.2:5000/api/v1') : 'https://grove-and-stone.onrender.com/api/v1')).replace(/\/$/, '');
 export const media = (path: string) => path.startsWith('/') ? API_URL.replace(/\/api\/v1$/, '') + path : path;
 const tokenStore = {
   get: () => Platform.OS === 'web' ? Promise.resolve(sessionStorage.getItem('gs-auth')) : SecureStore.getItemAsync('gs-auth'),
@@ -43,8 +43,8 @@ export async function clearSession() {
 export class ApiError extends Error {
   constructor(public status: number, message: string) { super(message); }
 }
-export async function api<T = any>(path: string, method = 'GET', data?: unknown, retry = true): Promise<T> {
-  const controller = new AbortController(), timeout = setTimeout(() => controller.abort(), path === '/health' ? 90000 : 15000);
+export async function api<T = any>(path: string, method = 'GET', data?: unknown, retry = true, timeoutMs = 15000): Promise<T> {
+  const controller = new AbortController(), timeout = setTimeout(() => controller.abort(), timeoutMs);
   try {
     const response = await fetch(API_URL + path, { method, signal: controller.signal, headers: {
       'Content-Type': 'application/json', 'X-Session-Id': guest,
@@ -69,10 +69,10 @@ export async function api<T = any>(path: string, method = 'GET', data?: unknown,
     throw new Error('Could not reach the shop. Check your connection and try again.');
   } finally { clearTimeout(timeout); }
 }
-export async function all<T>(path: string): Promise<T[]> {
+export async function all<T>(path: string, timeoutMs = 15000): Promise<T[]> {
   let items: T[] = [], page = 1, total = 0;
   do {
-    const result = await api<{ items: T[]; total: number }>(`${path}${path.includes('?') ? '&' : '?'}page_size=50&page=${page++}`);
+    const result = await api<{ items: T[]; total: number }>(`${path}${path.includes('?') ? '&' : '?'}page_size=50&page=${page++}`, 'GET', undefined, true, timeoutMs);
     items = items.concat(result.items); total = result.total;
     if (!result.items.length) break;
   } while (items.length < total);

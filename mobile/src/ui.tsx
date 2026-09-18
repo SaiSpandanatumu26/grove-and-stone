@@ -1,7 +1,7 @@
 import { ReactNode } from 'react';
-import { Image, ImageStyle, Pressable, ScrollView, StyleProp, StyleSheet, Text, TextInput, TextInputProps, View, useWindowDimensions } from 'react-native';
+import { Pressable, ScrollView, StyleSheet, Text, TextInput, TextInputProps, View, useWindowDimensions } from 'react-native';
 import Ionicons from '@expo/vector-icons/Ionicons';
-import { media } from './api';
+export { Photo } from './Photo';
 
 export const colors = { orange: '#EC650E', dark: '#292624', muted: '#706B63', yellow: '#FFBE21', cream: '#FFFAF2', line: '#F0E8DD', green: '#407B38' };
 export type IconName = React.ComponentProps<typeof Ionicons>['name'];
@@ -25,7 +25,6 @@ export function IconButton({ label, icon, onPress, active = false, disabled = fa
 export function Field({ label, ...props }: TextInputProps & { label: string }) {
   return <View style={{ gap: 7, flexGrow: 1 }}><Text style={s.label}>{label}</Text><TextInput accessibilityLabel={label} placeholderTextColor="#8B857B" {...props} style={[s.input, props.style]} /></View>;
 }
-export const Photo = ({ src, label, style }: { src: string; label: string; style?: StyleProp<ImageStyle> }) => <Image source={{ uri: media(src) }} accessibilityLabel={label} resizeMode="cover" style={[s.photo, style]} />;
 export function Page({ children }: { children: ReactNode }) { return <ScrollView style={s.page} contentContainerStyle={s.pageContent} keyboardShouldPersistTaps="handled"><View style={s.container}>{children}</View></ScrollView>; }
 export function Empty({ icon, title, body, children }: { icon: IconName; title: string; body: string; children?: ReactNode }) {
   return <View style={s.empty}><View style={s.emptyIcon}><Icon name={icon} size={42} /></View><Heading>{title}</Heading><Copy>{body}</Copy>{children}</View>;

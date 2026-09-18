@@ -155,6 +155,9 @@ def install_api(app):
 
     @app.after_request
     def finish(response):
+        # Public files need neither database transactions nor private-response caching.
+        if request.endpoint == "api.media" and response.status_code in {200, 206, 304}:
+            return response
         try:
             if response.status_code < 400:
                 from flask import g

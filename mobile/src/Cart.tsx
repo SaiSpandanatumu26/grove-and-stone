@@ -24,6 +24,7 @@ export function PincodeScreen() {
 
 export function CartScreen() {
   const shop = useShop(), navigation = useNavigation<any>(), wide = useWide(), [confirmClear, setConfirmClear] = useState(false), cart = shop.cart;
+  if (!shop.ready || shop.failed) return <Page><Heading>Your basket</Heading><Copy>{shop.failed ? 'Reconnect to load your saved basket.' : 'Loading your basket…'}</Copy>{shop.failed && <Button label="Try again" onPress={shop.reload} disabled={shop.busy} />}</Page>;
   if (!cart?.lines.length) return <Page><Empty icon="bag-handle-outline" title="Your cart is empty" body="There’s a whole grove of good things waiting for you."><Button label="Find your favourites" icon="arrow-forward" onPress={() => navigation.getParent()?.navigate('Home')} /></Empty></Page>;
   const change = (id: string, qty?: number) => shop.perform(async () => { await api('/cart/lines/' + id, qty ? 'PATCH' : 'DELETE', qty ? { qty } : undefined); await shop.refreshCart(); });
   return <Page><View style={s.between}><View style={{ gap: 8 }}><Eyebrow>GOOD CHOICES, ALL TOGETHER</Eyebrow><Heading>Your basket</Heading><Copy>{cart.lines.reduce((total, line) => total + line.qty, 0)} {cart.lines.reduce((total, line) => total + line.qty, 0) === 1 ? 'pack' : 'packs'} of goodness</Copy></View><Button label="Clear cart" quiet disabled={shop.busy} onPress={() => setConfirmClear(true)} /></View><StockStatus />

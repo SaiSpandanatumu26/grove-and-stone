@@ -1,6 +1,6 @@
-import { ActivityIndicator, Text, View } from 'react-native';
+import { ActivityIndicator, Platform, Text, View } from 'react-native';
 import { SafeAreaProvider } from 'react-native-safe-area-context';
-import { NavigationContainer, DefaultTheme } from '@react-navigation/native';
+import { NavigationContainer, DefaultTheme, NavigatorScreenParams, LinkingOptions } from '@react-navigation/native';
 import { createBottomTabNavigator } from '@react-navigation/bottom-tabs';
 import { createNativeStackNavigator } from '@react-navigation/native-stack';
 import { StatusBar } from 'expo-status-bar';
@@ -11,13 +11,18 @@ import { InfoScreen } from './src/Info';
 import { HomeScreen, MangoScreen, ProductScreen, SearchScreen, WaitlistScreen } from './src/Home';
 import { ShopProvider, useShop } from './src/Store';
 import { Button, colors, Icon, IconButton, IconName, s, useWide } from './src/ui';
+import { Onboarding } from './src/Onboarding';
 
-type Tabs = { Home: undefined; Mangoes: undefined; Cart: undefined; Account: undefined };
+type Tabs = { Home: NavigatorScreenParams<Stack> | undefined; Mangoes: NavigatorScreenParams<Stack> | undefined; Cart: NavigatorScreenParams<Stack> | undefined; Account: NavigatorScreenParams<Stack> | undefined };
 type Stack = { Landing: { section?: string; next?: string } | undefined; Product: { slug: string }; Waitlist: { slug: string }; Search: undefined; Pincode: undefined; Checkout: undefined; Order: { number: string }; Info: { page: string } };
 const Tab = createBottomTabNavigator<Tabs>(), Screen = createNativeStackNavigator<Stack>();
 const pages = { Home: HomeScreen, Mangoes: MangoScreen, Cart: CartScreen, Account: AccountScreen };
 const icons: Record<keyof Tabs, IconName> = { Home: 'home-outline', Mangoes: 'leaf-outline', Cart: 'bag-handle-outline', Account: 'person-outline' };
 const theme = { ...DefaultTheme, colors: { ...DefaultTheme.colors, primary: colors.orange, background: '#FFFFFF', card: '#FFFFFF', text: colors.dark, border: colors.line } };
+const linking: LinkingOptions<Tabs> = { prefixes: ['groveandstone://'], config: { screens: {
+  Home: { initialRouteName: 'Landing', screens: { Landing: '', Product: 'p/:slug' } },
+  Mangoes: { screens: { Landing: 'mango-season' } }, Account: { screens: { Order: 'order/:number' } },
+} } };
 
 function TabStack({ route, navigation: tabNav }: any) {
   const shop = useShop(), wide = useWide(), name = route.name as keyof Tabs;
@@ -45,12 +50,13 @@ function Storefront() {
   const shop = useShop(), count = shop.cart?.lines.reduce((sum, line) => sum + line.qty, 0) || 0;
   return <View style={{ flex: 1, backgroundColor: '#FFFFFF' }}>
     {!!shop.notice && <View accessibilityLiveRegion="polite" style={[s.between, { paddingHorizontal: 18, backgroundColor: '#FFF0D8', minHeight: 50 }]}><Text style={{ color: '#77440B', flex: 1, fontSize: 14 }}>{shop.notice}</Text><IconButton label="Dismiss message" icon="close" onPress={() => shop.setNotice('')} /></View>}
-    {!shop.ready ? <View style={s.empty}><ActivityIndicator color={colors.orange} /><Text style={s.copy}>Getting the grove ready... The first visit may take about a minute.</Text></View> : shop.failed ? <View style={s.empty}><Text style={s.copy}>The shop could not load.</Text><Button label="Try again" onPress={shop.reload} disabled={shop.busy} /></View> :
-      <NavigationContainer theme={theme}><Tab.Navigator initialRouteName="Home" backBehavior="history" screenOptions={({ route }) => ({
+    {(!shop.ready || shop.busy && shop.cached) && <View style={[s.row, { padding: 12 }]}><ActivityIndicator color={colors.orange} /><Text style={s.copy}>{shop.cached ? 'Updating prices and availability…' : 'Loading the latest collection…'}</Text></View>}
+    {shop.failed && <View style={{ padding: 12, backgroundColor: colors.cream, gap: 8 }}><Text style={s.copy}>{shop.products.length ? 'You’re offline or the shop is unavailable. Saved items are for browsing; reconnect before ordering.' : 'The shop is unavailable. Check your connection and try again.'}</Text><Button label="Try again" onPress={shop.reload} disabled={shop.busy} /></View>}
+      <NavigationContainer theme={theme} linking={Platform.OS === 'web' ? undefined : linking}><Tab.Navigator initialRouteName="Home" backBehavior="history" screenOptions={({ route }) => ({
         headerShown: false, tabBarActiveTintColor: colors.orange, tabBarInactiveTintColor: '#8A847C', tabBarStyle: { borderTopColor: colors.line, minHeight: 66 }, tabBarItemStyle: { minHeight: 56 }, tabBarLabelStyle: { fontSize: 12, fontWeight: '700' },
         tabBarIcon: ({ color }) => <Icon name={icons[route.name]} color={color} size={22} />,
         tabBarBadge: route.name === 'Cart' && count ? count : undefined, tabBarBadgeStyle: { backgroundColor: colors.orange, color: '#FFFFFF' },
-      })}>{(Object.keys(pages) as (keyof Tabs)[]).map(name => <Tab.Screen key={name} name={name} component={TabStack} />)}</Tab.Navigator></NavigationContainer>}
+      })}>{(Object.keys(pages) as (keyof Tabs)[]).map(name => <Tab.Screen key={name} name={name} component={TabStack} />)}</Tab.Navigator></NavigationContainer>
   </View>;
 }
-export default function App() { return <SafeAreaProvider><StatusBar style="dark" /><ShopProvider><Storefront /></ShopProvider></SafeAreaProvider>; }
+export default function App() { return <SafeAreaProvider><StatusBar style="dark" /><ShopProvider><Onboarding><Storefront /></Onboarding></ShopProvider></SafeAreaProvider>; }

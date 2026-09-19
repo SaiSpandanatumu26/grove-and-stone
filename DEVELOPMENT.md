@@ -60,7 +60,7 @@ Install `backend/requirements-fcm.txt`, configure `GOOGLE_APPLICATION_CREDENTIAL
 
 1. Review the running storefront and account/cart flows described in `STOREFRONT_REVIEW.md`. Device testing and existing upstream dependency advisories remain outstanding.
 2. Review the completed checkout and support flows in `CHECKOUT_REVIEW.md`; approve shipping charges and policy values.
-3. Deployment is approved; sign in to GitHub, Render and Expo to continue the remote steps in `DEPLOYMENT.md`. Live gateway/email/device tests still need credentials.
+3. Website/API deployment and the signed Android build are complete. See `output/android/README.md` for installation and `OWNER_GUIDE.md` for outstanding business/provider setup. Physical-phone testing remains.
 
 Nothing has been deployed. The broader documents also specify customer/admin websites; their screens remain part of the overall product specification.
 
@@ -78,7 +78,7 @@ $env:SHIPPING_FEE = '49'
 $env:FREE_SHIPPING_THRESHOLD = '999'
 ```
 
-Demo modes are rejected for remote or non-`_local` databases. Production defaults disable online payments/contact until configured. Delivery pricing must be supplied for checkout. See `DEPLOYMENT.md` for deployment files and exact commands; no remote action has been taken.
+Demo modes are rejected for remote or non-`_local` databases. Production defaults disable online payments/contact until configured. Delivery pricing must be supplied for checkout. See `FREE_DEPLOYMENT.md` for the deployed services and `DEPLOYMENT.md` for configuration commands.
 
 ## Live stock availability
 

@@ -1,5 +1,7 @@
 # Grove & Stone — checkout review
 
+**Historical stage review.** Later work deployed the website/API, added the owner dashboard, and produced the signed Android APK. Windows emulator startup and navigation were checked on 19 September 2026. See [current Android installation/status](output/android/README.md), [hosting](FREE_DEPLOYMENT.md), and [owner setup](OWNER_GUIDE.md). Statements below describe the earlier review stage.
+
 Open **http://localhost:8081/** while the local servers are running. The earlier Foodwagon-inspired storefront remains in place.
 
 ## Try the new flow

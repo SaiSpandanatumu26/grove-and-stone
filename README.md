@@ -1,8 +1,10 @@
 # Grove & Stone
 
-**Live website: [grove-and-stone-web.onrender.com](https://grove-and-stone-web.onrender.com).** The Flask REST API runs on Render Free and uses Supabase Free PostgreSQL. The source repository is public. Read [FREE_DEPLOYMENT.md](FREE_DEPLOYMENT.md) for operations and limitations. **[Android APK 1.0.0 is available](output/android/README.md)**; device testing and Google Play publication remain.
+**Live website: [grove-and-stone-web.onrender.com](https://grove-and-stone-web.onrender.com).** The Flask REST API runs on Render Free and uses Supabase Free PostgreSQL. The source repository is public. Read [FREE_DEPLOYMENT.md](FREE_DEPLOYMENT.md) for operations and limitations. **[Android APK 1.0.0 is available](output/android/README.md)**; Windows emulator startup and navigation are verified. Physical-phone testing and Google Play publication remain.
 
-Latest validation (18 September 2026): **52 backend tests passed**, along with TypeScript and catalog-cache checks, web/Android exports and a signed Android APK build. Local browser checks covered optimized images, product details and cart totals. The owner dashboard covers orders, stock, delivery areas, alerts, offers and team access; see [OWNER_GUIDE.md](OWNER_GUIDE.md) for setup and remaining launch requirements. Earlier test counts below are historical.
+Latest Android check (19 September 2026): the APK installed and opened on an Android 11 Windows emulator; the home page, Cart tab and desktop launcher were checked. See [phone installation](output/android/README.md) and [Windows emulator instructions](output/android/windows/README.md).
+
+Build validation (18 September 2026): **52 backend tests passed**, along with TypeScript and catalog-cache checks, web/Android exports and a signed Android APK build. Local browser checks covered optimized images, product details and cart totals. The owner dashboard covers orders, stock, delivery areas, alerts, offers and team access; see [OWNER_GUIDE.md](OWNER_GUIDE.md) for setup and remaining launch requirements. Earlier test counts below are historical.
 
 **New to this project? Start with [the beginner guide](BEGINNER_GUIDE.md).** It explains every main website screen/control, the complete shopping flow, each technology and code file, the original 22 database models (six operational additions are explained in the owner guide), API requests, local setup, troubleshooting, and deployment. No programming background is assumed. Flow diagrams show how the parts connect.
 
@@ -98,7 +100,7 @@ Install `backend/requirements-fcm.txt`, configure `GOOGLE_APPLICATION_CREDENTIAL
 
 1. Review the running storefront and account/cart flows described in `STOREFRONT_REVIEW.md`. Device testing and existing upstream dependency advisories remain outstanding.
 2. Review the completed checkout and support flows in `CHECKOUT_REVIEW.md`; approve shipping charges and policy values.
-3. Deployment is approved and GitHub/Render are connected. Enter the Supabase session-pooler connection string privately in Render to continue the steps in `FREE_DEPLOYMENT.md`. Live gateway/email/device tests still need credentials.
+3. The website/API are deployed and the signed Android APK is available. Complete the operational items in `OWNER_GUIDE.md`, including live provider configuration and physical-phone testing; see `FREE_DEPLOYMENT.md` for hosting details.
 
 The cloud database, public website and API are live. The signed Android build remains pending. The owner workspace, durable order alerts, shipment tracking references, COD collection, delivery import and nationwide postal reference search are implemented. See [OWNER_GUIDE.md](OWNER_GUIDE.md) for operation and current release blockers. Live payments are deferred; real delivery coverage and email-provider activation still need owner details. Production ordering defaults to paused until business setup is reviewed.
 

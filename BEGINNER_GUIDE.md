@@ -1,6 +1,6 @@
 # Grove & Stone — a beginner's guide
 
-**Latest hosting update (11 September 2026):** Open [the live website](https://grove-and-stone-web.onrender.com). Render hosts the website and Flask API; Supabase stores the database. The repository is public. A signed Android APK still requires an Expo EAS build. Read [the free deployment guide](FREE_DEPLOYMENT.md).
+**Latest update (19 September 2026):** Open [the live website](https://grove-and-stone-web.onrender.com). Render hosts the website and Flask REST API; Supabase stores the database. The repository is public. The signed Android APK is built and its startup/navigation were checked in a Windows emulator. See [install on an Android phone](output/android/README.md), [run on Windows](output/android/windows/README.md), and [hosting details](FREE_DEPLOYMENT.md).
 
 This guide assumes you have never built an app or website. It explains the shop, its screens and controls, the purchase flow, the technologies, and the code files.
 
@@ -515,11 +515,11 @@ flowchart LR
 
 Your deployment approval is recorded. GitHub and Render are connected, and the repository is public. Supabase has all 22 application tables with row-level security enabled; its automatic Data API is disabled because the app uses Flask for access. The private connection string and signing secret are saved in Render environment settings. Keep them out of chat and GitHub.
 
-The current Render recipe includes **both the API and website** as separate services. Once created, their actual HTTPS addresses must be connected in the settings and tested. The Android APK will use that same API. Expo's command-line build tool still needs account sign-in; signing into its website alone does not sign that tool in.
+The deployed website and API are separate Render services. The signed Android APK already points to the same HTTPS API. Expo CLI authentication and the preview APK build were completed. Installing that APK on your phone does not require Node.js, Python, Android Studio, Expo Go or Orbit; follow the linked phone guide.
 
 We are using Supabase Free for the database, avoiding Render's expiring database trial. Render's free API sleeps while idle, and inactive Supabase Free projects can pause. See [FREE_DEPLOYMENT.md](FREE_DEPLOYMENT.md) for the limits and what a slow first visit means.
 
-Before a real launch: finish Expo CLI sign-in; arrange backups and a push/refund worker; replace sample catalog/business values; configure/test real payments, email, and push; test an installed Android build. A separate staff website, phone OTP/social login, and waitlist email/SMS delivery are not complete. Administrative JSON endpoints exist, but there is no finished visual staff dashboard.
+Before a real launch: finish owner setup and actual delivery coverage, confirm catalog/business values, arrange backups and workers, configure/test real payments and notifications, and test on a physical Android phone. The visual owner dashboard now covers orders, stock, delivery areas, offers, alerts and team access; use [OWNER_GUIDE.md](OWNER_GUIDE.md) for its setup and remaining requirements. Live payments remain deferred until the merchant account is ready.
 
 ## Glossary
 

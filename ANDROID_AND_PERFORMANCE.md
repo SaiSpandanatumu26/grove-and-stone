@@ -58,7 +58,8 @@ For local native compilation, `npm.cmd run android` requires Android Studio/SDK,
 - TypeScript checks, web and Android exports passed.
 - Catalog cache tests cover malformed, expired and future-dated snapshots.
 - Local browser inspection confirmed loaded WebP images with `loading="lazy"` and static asset URLs.
-- A successful APK build still needs installation and a real-device check of onboarding, sign-in, product browsing, cart, back navigation and background/resume behavior.
+- On 19 September 2026, APK 1.0.0 installed and launched on a Windows-hosted Android 11 x86_64 emulator with WHPX acceleration. The welcome screen, Skip action, home page, Cart navigation and repeat launch were checked; no crash was recorded during that check. [Windows launcher and setup](output/android/windows/README.md).
+- Physical-phone testing remains: onboarding at different screen sizes, sign-in, product browsing, cart, back navigation and background/resume behavior. Emulator checks do not replace these checks.
 - Live payments remain deferred at the owner's request. Firebase configuration and real push delivery, verified HTTPS app links, Google Play listing/policies and merchant setup must be completed before a public store release. See `OWNER_GUIDE.md` for operational launch requirements.
 
 ## Scaling beyond free hosting

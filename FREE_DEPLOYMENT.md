@@ -1,14 +1,14 @@
 # Grove & Stone — free website and Android deployment
 
-Updated 11 September 2026. **This is the current deployment plan**, replacing the paid Azure proposal and the original expiring Render database. The owner requested a free provider and authorized proceeding.
+Android/repository status updated 19 September 2026; database provisioning figures below record the initial 11 September deployment. **This is the current deployment plan**, replacing the paid Azure proposal and the original expiring Render database. The owner requested a free provider and authorized proceeding.
 
 ## Current status
 
-- Source uploaded to the owner's [private GitHub repository](https://github.com/SaiSpandanatumu26/grove-and-stone); GitHub's Private badge verified. Render is signed in and connected to this repository.
+- Source is in the owner's [public GitHub repository](https://github.com/SaiSpandanatumu26/grove-and-stone), made public at the owner's request. Render is connected to this repository. Environment secrets and dependencies are excluded from Git.
 - Supabase PostgreSQL 17.6 initialized successfully: 22 application tables, all 22 with row-level security enabled. The automatic Data API is disabled.
-- Sample catalog imported and verified: 19 products (8 mango varieties), 38 packs and 4 hero banners, plus 8 harvest entries and 3 sample delivery pincodes. Cloud customer and order counts are both zero. No local demo login or order was uploaded.
+- Initial deployment snapshot (11 September): sample catalog imported and verified: 19 products (8 mango varieties), 38 packs and 4 hero banners, plus 8 harvest entries and 3 sample delivery pincodes. At that initial check, cloud customer and order counts were both zero; these are not current live counts. No local demo login or order was uploaded.
 - Render services are live: [website](https://grove-and-stone-web.onrender.com) and [API health](https://grove-and-stone.onrender.com/api/v1/health). DATABASE_URL and SECRET_KEY are stored privately in Render. CORS allows the website origin; the static site has its SPA rewrite. Do not create duplicate services from the old Blueprint draft.
-- Expo CLI reports **Not logged in**. A signed Android APK has not been built; browser sign-in does not authenticate the CLI.
+- Expo CLI authentication and the signed Android APK 1.0.0 build completed on 18 September. Installation, startup, home and Cart navigation were checked in the Windows Android 11 emulator on 19 September. [Install on a phone](output/android/README.md) or [use the Windows launcher](output/android/windows/README.md). Physical-phone testing and Play publication remain.
 
 The Supabase project is the owner's existing project in Sydney; Render's existing API region is Oregon. No paid Azure resources or Render database were created.
 

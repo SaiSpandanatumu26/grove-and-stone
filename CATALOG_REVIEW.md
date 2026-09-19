@@ -1,5 +1,7 @@
 **11 September update:** The current catalog has 19 products, 38 packs, 8 mango varieties and 4 banners. See [HERO_MANGO_REVIEW.md](HERO_MANGO_REVIEW.md). The earlier review below records the first expansion.
 
+**Historical stage review.** Later work deployed the website/API, added the owner dashboard, and produced the signed Android APK. Windows emulator startup and navigation were checked on 19 September 2026. See [current Android installation/status](output/android/README.md), [hosting](FREE_DEPLOYMENT.md), and [owner setup](OWNER_GUIDE.md). Statements below describe the earlier review stage.
+
 # Grove & Stone — catalog and debugging review
 
 Reviewed 9 September 2026. Open [the local shop](http://localhost:8081/) while its database, Flask, and Expo servers are running. Start with [BEGINNER_GUIDE.md](BEGINNER_GUIDE.md) for a plain-language walkthrough.

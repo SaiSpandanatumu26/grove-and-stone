@@ -4,6 +4,10 @@ User-supplied screenshots of the website in an iPhone browser, added on 13 Septe
 
 [Open the live website](https://grove-and-stone-web.onrender.com/) · [Back to project README](../README.md)
 
+## Android app
+
+[Install the signed APK on your Android phone](android/README.md), or [run it in the Windows emulator](android/windows/README.md). Startup, the home page and Cart navigation were checked in the emulator on 19 September 2026.
+
 ## App walkthrough video
 
 [Watch the captioned app walkthrough](walkthrough/README.md), covering all four hero slides, customer screens and the local owner dashboard. The chapter list explains the capture scope and flows not demonstrated.

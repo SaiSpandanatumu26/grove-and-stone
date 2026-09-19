@@ -6,5 +6,20 @@
   "bytes": 91093565,
   "sha256": "294f88b158b0b7f481d412997492f218669ebef7cbeaf3444891028690afae4b",
   "eas_url": "https://expo.dev/accounts/saispandanatumu/projects/grove-and-stone/builds/422635f0-b38b-49c9-9df1-a0b043b4250f",
-  "device_tested": false
+  "device_tested": false,
+  "physical_device_tested": false,
+  "emulator_validation": {
+    "date": "2026-09-19",
+    "host": "Windows 11",
+    "android_version": "11",
+    "api_level": 30,
+    "architecture": "x86_64",
+    "checks": [
+      "APK installation",
+      "welcome screen and Skip",
+      "home page",
+      "Cart navigation",
+      "repeat launch via Windows command file"
+    ]
+  }
 }
